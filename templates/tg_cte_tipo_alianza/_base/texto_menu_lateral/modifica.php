@@ -1,1 +1,1 @@
-<span class="texto-menu-lateral">Tipo alianza</span>
+<span class="texto-menu-lateral">Generales</span>
