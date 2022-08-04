@@ -11,8 +11,14 @@
                 <?php echo $controlador->inputs->codigo; ?>
                 <?php echo $controlador->inputs->codigo_bis; ?>
                 <?php echo $controlador->inputs->descripcion; ?>
-                <?php echo $controlador->inputs->descripcion_select; ?>
-                <?php echo $controlador->inputs->alias; ?>
+                <?php echo $controlador->inputs->nombre_contacto_1; ?>
+                <?php echo $controlador->inputs->nombre_contacto_2; ?>
+                <?php echo $controlador->inputs->nombre_contacto_3; ?>
+                <?php echo $controlador->inputs->select->dp_calle_pertenece_id; ?>
+                <?php echo $controlador->inputs->select->tg_cte_tipo_alianza_id; ?>
+                <?php echo $controlador->inputs->telefono_1; ?>
+                <?php echo $controlador->inputs->telefono_2; ?>
+                <?php echo $controlador->inputs->telefono_3; ?>
                 <div class="buttons col-md-12">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-info btn-guarda col-md-12 " name="btn_action_next" value="modifica">Guarda</button>
