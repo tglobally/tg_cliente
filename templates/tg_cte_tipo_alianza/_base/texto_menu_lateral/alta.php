@@ -1,1 +1,1 @@
-<span class="texto-menu-lateral">Alta tipo alianza</span>
+<span class="texto-menu-lateral">Alta Tipo de Alianza</span>
