@@ -13,13 +13,14 @@ use gamboamartin\errores\errores;
 use JsonException;
 use stdClass;
 
+
 class controlador_adm_session extends \gamboamartin\controllers\controlador_adm_session {
     public bool $existe_msj = false;
     public string $include_menu = '';
     public string $mensaje_html = '';
 
-    public string $link_alta_org_empresa = '';
-    public string $link_lista_org_empresa = '';
+    public string $link_alta_tg_cte_tipo_alianza = '';
+    public string $link_lista_tg_cte_tipo_alianza = '';
 
     /**
      * Funcion de controlador donde se ejecutaran siempre que haya un acceso denegado
@@ -55,11 +56,11 @@ class controlador_adm_session extends \gamboamartin\controllers\controlador_adm_
             return $this->retorno_error(mensaje:  'Error al generar template',data: $template, header: $header, ws: $ws);
         }
 
-        $hd = "index.php?seccion=org_empresa&accion=alta&session_id=$this->session_id";
-        $this->link_alta_org_empresa = $hd;
+        $hd = "index.php?seccion=tg_cte_tipo_alianza&accion=alta&session_id=$this->session_id";
+        $this->link_alta_tg_cte_tipo_alianza = $hd;
 
-        $hd = "index.php?seccion=org_empresa&accion=lista&session_id=$this->session_id";
-        $this->link_lista_org_empresa = $hd;
+        $hd = "index.php?seccion=tg_cte_tipo_alianza&accion=lista&session_id=$this->session_id";
+        $this->link_lista_tg_cte_tipo_alianza = $hd;
 
         $this->include_menu = (new generales())->path_base;
         $this->include_menu .= 'templates/inicio.php';
