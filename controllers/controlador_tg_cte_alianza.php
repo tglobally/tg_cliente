@@ -6,25 +6,24 @@
  * @final En proceso
  *
  */
-namespace gamboamartin\comercial\controllers;
+namespace tglobally\tg_cliente\controllers;
 
 use gamboamartin\errores\errores;
 use gamboamartin\system\links_menu;
 use gamboamartin\system\system;
-use gamboamartin\template\html;
-use html\cat_sat_moneda_html;
-use html\com_cliente_html;
+
+
 use html\tg_cte_alianza_html;
-use html\tg_cte_tipo_alianza_html;
-use models\com_cliente;
+
+
 use models\tg_cte_alianza;
-use models\tg_cte_tipo_alianza;
 use PDO;
 use stdClass;
+use tglobally\template_tg\html;
 
 class controlador_tg_cte_alianza extends system {
 
-    public function __construct(PDO $link, html $html = new \gamboamartin\template_1\html(),
+    public function __construct(PDO $link, html $html = new \tglobally\template_tg\html(),
                                 stdClass $paths_conf = new stdClass()){
         $modelo = new tg_cte_alianza(link: $link);
         $html_ = new tg_cte_alianza_html(html: $html);
