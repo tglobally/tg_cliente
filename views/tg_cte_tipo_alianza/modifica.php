@@ -8,6 +8,7 @@
 
         <div class="  form-main" id="form">
             <form method="post" action="./index.php?seccion=tg_cte_tipo_alianza&accion=modifica_bd&session_id=<?php echo $controlador->session_id; ?>&registro_id=<?php echo $controlador->registro_id; ?>" class="form-additional">
+                <?php echo $controlador->inputs->id; ?>
                 <?php echo $controlador->inputs->codigo; ?>
                 <?php echo $controlador->inputs->codigo_bis; ?>
                 <?php echo $controlador->inputs->descripcion; ?>
