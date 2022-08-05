@@ -10,6 +10,8 @@
         <div class="col-md-8">
             <h3>Alta Clientes</h3>
             <?php include "templates/com_cliente/_base/buttons/1.azul.php"; ?>
+            <hr class="hr-menu-lateral">
+            <?php include "templates/com_cliente/_base/links/2.php"; ?>
         </div>
     </div>
 </div>
