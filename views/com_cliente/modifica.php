@@ -9,6 +9,7 @@
         <div class="  form-main" id="form">
             <form method="post" action="./index.php?seccion=com_cliente&accion=modifica_bd&session_id=<?php echo $controlador->session_id; ?>&registro_id=<?php echo $controlador->registro_id; ?>" class="form-additional">
                 <?php echo $controlador->inputs->codigo; ?>
+                <?php echo $controlador->inputs->codigo_bis; ?>
                 <?php echo $controlador->inputs->rfc; ?>
                 <?php echo $controlador->inputs->descripcion; ?>
                 <?php echo $controlador->inputs->razon_social; ?>
@@ -27,7 +28,7 @@
                 <?php echo $controlador->inputs->numero_interior; ?>
                 <?php echo $controlador->inputs->numero_exterior; ?>
                 <?php echo $controlador->inputs->telefono; ?>
-                <?php echo $controlador->inputs->codigo_bis; ?>
+
                 <div class="buttons col-md-12">
                     <div class="col-md-6 btn-ancho">
                         <button type="submit" class="btn btn-info btn-guarda col-md-12 " >Modifica</button>
