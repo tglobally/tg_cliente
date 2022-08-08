@@ -4,6 +4,7 @@ namespace html;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use models\base\limpieza;
+use models\tg_cte_alianza;
 use tglobally\tg_cliente\controllers\controlador_tg_cte_alianza;
 
 use stdClass;
@@ -273,6 +274,18 @@ class tg_cte_alianza_html extends html_controler {
         $selects->tg_cte_tipo_alianza_id = $select;
 
         return $selects;
+    }
+
+    public function select_tg_cte_alianza_id(int $cols, bool $con_registros, int $id_selected, PDO $link): array|string
+    {
+        $modelo = new tg_cte_alianza(link: $link);
+
+        $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
+            modelo: $modelo,label: 'Alianza',required: true);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select', data: $select);
+        }
+        return $select;
     }
 
     private function texts_alta(stdClass $row_upd, bool $value_vacio): array|stdClass

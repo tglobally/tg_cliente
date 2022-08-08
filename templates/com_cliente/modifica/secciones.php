@@ -1,4 +1,3 @@
-<?php /** @var \tglobally\tg_cliente\controllers\controlador_com_cliente $controlador */?>
 <?php use config\views; ?>
 
 <div class="col-md-3 secciones">
@@ -12,6 +11,8 @@
             <?php include "templates/com_cliente/_base/buttons/1.azul.php"; ?>
             <hr class="hr-menu-lateral">
             <?php include "templates/com_cliente/_base/links/2.php"; ?>
+            <hr class="hr-menu-lateral">
+            <?php include "templates/com_cliente/_base/links/3.php"; ?>
         </div>
     </div>
 </div>
