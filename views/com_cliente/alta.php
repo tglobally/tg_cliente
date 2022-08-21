@@ -8,10 +8,8 @@
         <div class="  form-main" id="form">
             <form method="post" action="./index.php?seccion=com_cliente&accion=alta_bd&session_id=<?php echo $controlador->session_id; ?>" class="form-additional">
 
-                <?php echo $controlador->inputs->codigo; ?>
                 <?php echo $controlador->inputs->codigo_bis; ?>
                 <?php echo $controlador->inputs->rfc; ?>
-                <?php echo $controlador->inputs->descripcion; ?>
                 <?php echo $controlador->inputs->razon_social; ?>
                 <?php echo $controlador->inputs->select->cat_sat_regimen_fiscal_id; ?>
                 <?php echo $controlador->inputs->select->dp_pais_id; ?>
