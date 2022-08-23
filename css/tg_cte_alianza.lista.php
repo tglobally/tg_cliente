@@ -1,4 +1,12 @@
-@import "base.css";
+<?php
+    /** @var string $url_template */
+use config\views;
+
+$ruta_template_base = (new views())->ruta_template_base;
+include $ruta_template_base.'assets/css/_base_css.php';
+?>
+
+ <style>
 .acciones_filter{
     display: flex;
     justify-content: center;
@@ -149,6 +157,6 @@ input:focus {outline:none!important;}
 table thead {
     background-color: #F1F2F6;
 }
-
+</style>
 
 
