@@ -27,6 +27,7 @@ class controlador_adm_session extends \gamboamartin\controllers\controlador_adm_
     public string $link_lista_com_cliente = '';
     public string $link_alta_com_producto = '';
     public string $link_lista_com_producto = '';
+    public string $link_lista_com_sucursal= '';
 
     /**
      * Funcion de controlador donde se ejecutaran siempre que haya un acceso denegado
@@ -79,6 +80,8 @@ class controlador_adm_session extends \gamboamartin\controllers\controlador_adm_
         $this->link_lista_com_cliente = $hd;
         $hd = "index.php?seccion=com_producto&accion=lista&session_id=$this->session_id";
         $this->link_lista_com_producto = $hd;
+        $hd = "index.php?seccion=com_sucursal&accion=lista&session_id=$this->session_id";
+        $this->link_lista_com_sucursal = $hd;
 
         $this->include_menu = (new generales())->path_base;
         $this->include_menu .= 'templates/inicio.php';
