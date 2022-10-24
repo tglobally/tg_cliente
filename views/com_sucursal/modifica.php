@@ -6,9 +6,8 @@
         <h3 class="text-center titulo-form">Hola, <?php echo $controlador->datos_session_usuario['adm_usuario_user']; ?> </h3>
 
         <div class="  form-main" id="form">
-            <form method="post" action="./index.php?seccion=com_sucursal&accion=alta_bd&session_id=<?php echo $controlador->session_id; ?>" class="form-additional">
+            <form method="post" action="./index.php?seccion=com_sucursal&accion=modifica_bd&session_id=<?php echo $controlador->session_id; ?>&registro_id=<?php echo $controlador->registro_id; ?>" class="form-additional">
 
-                <?php echo $controlador->inputs->select->com_cliente_id; ?>
                 <?php echo $controlador->inputs->codigo; ?>
                 <?php echo $controlador->inputs->descripcion; ?>
                 <?php echo $controlador->inputs->nombre_contacto; ?>
@@ -26,10 +25,10 @@
 
                 <div class="buttons col-md-12">
                     <div class="col-md-6">
-                        <button type="submit" class="btn btn-info btn-guarda col-md-12 " name="btn_action_next" value="modifica">Guarda</button>
+                        <button type="submit" class="btn btn-info btn-guarda col-md-12 " name="" value="modifica">Guarda</button>
                     </div>
-                    <div class="col-md-6 ">
-                        <a class="btn btn-info btn-guarda col-md-12 ">Siguiente</a>
+                    <div class="col-md-6 btn-ancho">
+                        <a href="index.php?seccion=com_sucursal&accion=lista&session_id=<?php echo $controlador->session_id; ?>" class="btn btn-info btn-guarda col-md-12 ">Lista</a>
                     </div>
                 </div>
             </form>
