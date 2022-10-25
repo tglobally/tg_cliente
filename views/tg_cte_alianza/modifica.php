@@ -15,6 +15,11 @@
                 <?php echo $controlador->inputs->nombre_contacto_1; ?>
                 <?php echo $controlador->inputs->nombre_contacto_2; ?>
                 <?php echo $controlador->inputs->nombre_contacto_3; ?>
+                <?php echo $controlador->inputs->select->dp_pais_id; ?>
+                <?php echo $controlador->inputs->select->dp_estado_id; ?>
+                <?php echo $controlador->inputs->select->dp_municipio_id; ?>
+                <?php echo $controlador->inputs->select->dp_cp_id; ?>
+                <?php echo $controlador->inputs->select->dp_colonia_postal_id; ?>
                 <?php echo $controlador->inputs->select->dp_calle_pertenece_id; ?>
                 <?php echo $controlador->inputs->select->tg_cte_tipo_alianza_id; ?>
                 <?php echo $controlador->inputs->telefono_1; ?>

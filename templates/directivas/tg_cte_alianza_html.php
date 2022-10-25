@@ -3,7 +3,6 @@ namespace html;
 
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
-use models\base\limpieza;
 use models\tg_cte_alianza;
 use tglobally\tg_cliente\controllers\controlador_tg_cte_alianza;
 
@@ -16,6 +15,11 @@ class tg_cte_alianza_html extends html_controler {
     {
         $controler->inputs->select = new stdClass();
 
+        $controler->inputs->select->dp_pais_id = $inputs->selects->dp_pais_id;
+        $controler->inputs->select->dp_estado_id = $inputs->selects->dp_estado_id;
+        $controler->inputs->select->dp_municipio_id = $inputs->selects->dp_municipio_id;
+        $controler->inputs->select->dp_cp_id = $inputs->selects->dp_cp_id;
+        $controler->inputs->select->dp_colonia_postal_id = $inputs->selects->dp_colonia_postal_id;
         $controler->inputs->select->dp_calle_pertenece_id = $inputs->selects->dp_calle_pertenece_id;
         $controler->inputs->select->tg_cte_tipo_alianza_id = $inputs->selects->tg_cte_tipo_alianza_id;
 
@@ -239,8 +243,48 @@ class tg_cte_alianza_html extends html_controler {
     {
         $selects = new stdClass();
 
+        $dp_pais_html = new dp_pais_html(html:$this->html_base);
+        $select = $dp_pais_html->select_dp_pais_id(cols: 6, con_registros:true,
+            id_selected:-1,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_pais_id = $select;
+
+        $dp_estado_html = new dp_estado_html(html:$this->html_base);
+        $select = $dp_estado_html->select_dp_estado_id(cols: 6, con_registros:true,
+            id_selected:-1,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_estado_id = $select;
+
+        $dp_municipio_html = new dp_municipio_html(html:$this->html_base);
+        $select = $dp_municipio_html->select_dp_municipio_id(cols: 6, con_registros:true,
+            id_selected:-1,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_municipio_id = $select;
+
+        $dp_cp_html = new dp_cp_html(html:$this->html_base);
+        $select = $dp_cp_html->select_dp_cp_id(cols: 6, con_registros:true,
+            id_selected:-1,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_cp_id = $select;
+
+        $dp_colonia_postal_html = new dp_colonia_postal_html(html:$this->html_base);
+        $select = $dp_colonia_postal_html->select_dp_colonia_postal_id(cols: 6, con_registros:true,
+            id_selected:-1,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_colonia_postal_id = $select;
+
         $dp_calle_pertenece_html = new dp_calle_pertenece_html(html:$this->html_base);
-        $select = $dp_calle_pertenece_html->select_dp_calle_pertenece_id(cols: 12, con_registros:true,
+        $select = $dp_calle_pertenece_html->select_dp_calle_pertenece_id(cols: 6, con_registros:true,
             id_selected:-1,link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select',data:  $select);
@@ -262,8 +306,43 @@ class tg_cte_alianza_html extends html_controler {
     {
         $selects = new stdClass();
 
+        $select = (new dp_pais_html(html:$this->html_base))->select_dp_pais_id(
+            cols: 6, con_registros:true, id_selected:$row_upd->dp_pais_id,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_pais_id = $select;
+
+        $select = (new dp_estado_html(html:$this->html_base))->select_dp_estado_id(
+            cols: 6, con_registros:true, id_selected:$row_upd->dp_estado_id,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_estado_id = $select;
+
+        $select = (new dp_municipio_html(html:$this->html_base))->select_dp_municipio_id(
+            cols: 6, con_registros:true, id_selected:$row_upd->dp_municipio_id,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_municipio_id = $select;
+
+        $select = (new dp_cp_html(html:$this->html_base))->select_dp_cp_id(
+            cols: 6, con_registros:true, id_selected:$row_upd->dp_cp_id,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_cp_id = $select;
+
+        $select = (new dp_colonia_postal_html(html:$this->html_base))->select_dp_colonia_postal_id(
+            cols: 6, con_registros:true, id_selected:$row_upd->dp_colonia_postal_id,link: $link);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al generar select',data:  $select);
+        }
+        $selects->dp_colonia_postal_id = $select;
+
         $select = (new dp_calle_pertenece_html(html:$this->html_base))->select_dp_calle_pertenece_id(
-            cols: 12, con_registros:true, id_selected:$row_upd->dp_calle_pertenece_id,link: $link);
+            cols: 6, con_registros:true, id_selected:$row_upd->dp_calle_pertenece_id,link: $link);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select',data:  $select);
         }
