@@ -35,46 +35,31 @@ $url_icons = (new views())->url_icons;
                 <tr>
                     <th scope="col">Acciones</th>
                     <th scope="col">Id</th>
-                    <th scope="col">RFC</th>
-                    <th scope="col">Razon Social</th>
-                    <th scope="col">Nombre comercial</th>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Codigo Bis</th>
+                    <th scope="col">Descripcion</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th class="colum_accion" scope="row">
-                        <a class="icon_modifica_lista">
-                            <img src="<?php echo $url_icons; ?>icon_modifica.svg">
-                        </a>
-                        <a class="icon_elimina_lista">
-                            <img src="<?php echo $url_icons; ?>icon_elimina.svg">
-                        </a>
-                        <a class="icon_descargar_lista">
-                            <img src="<?php echo $url_icons; ?>icon_descargar.svg">
-                        </a>
-                    </th>
-                    <th>1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th class="colum_accion" scope="row">
-                        <a class="icon_modifica_lista">
-                            <img src="<?php echo $url_icons; ?>icon_modifica.svg">
-                        </a>
-                        <a class="icon_elimina_lista">
-                            <img src="<?php echo $url_icons; ?>icon_elimina.svg">
-                        </a>
-                        <a class="icon_descargar_lista">
-                            <img src="<?php echo $url_icons; ?>icon_descargar.svg">
-                        </a>
-                    </th>
-                    <th>2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
+                <?php foreach ($controlador->registros as $registro){
+
+                    ?>
+                    <tr>
+                        <th class="colum_accion" scope="row">
+                            <a class="icon_modifica_lista" href="<?php echo $registro->link_modifica; ?>">
+                                <img src="<?php echo $url_icons; ?>icon_modifica.svg">
+                            </a>
+                            <a class="icon_elimina_lista" href="<?php echo $registro->link_elimina_bd; ?>">
+                                <img src="<?php echo $url_icons; ?>icon_elimina.svg">
+                            </a>
+
+                        </th>
+                        <th><?php echo $registro->com_cliente_id; ?></th>
+                        <th><?php echo $registro->com_cliente_codigo; ?></th>
+                        <th><?php echo $registro->com_cliente_codigo_bis; ?></th>
+                        <th><?php echo $registro->com_cliente_descripcion; ?></th>
+                    </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
