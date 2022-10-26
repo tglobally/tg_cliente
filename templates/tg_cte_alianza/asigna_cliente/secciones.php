@@ -9,9 +9,9 @@
         </div>
         <div class="col-md-8">
             <h3>Alta Alianzas</h3>
-            <?php include "templates/tg_cte_alianza/_base/buttons/1.azul.php"; ?>
+            <?php include "templates/tg_cte_alianza/_base/buttons/1.gris.php"; ?>
             <hr class="hr-menu-lateral">
-            <?php include "templates/tg_cte_alianza/_base/links/asigna_cliente.gris.php"; ?>
+            <?php include "templates/tg_cte_alianza/_base/links/asigna_cliente.azul.php"; ?>
         </div>
     </div>
 </div>

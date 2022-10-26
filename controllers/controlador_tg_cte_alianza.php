@@ -49,13 +49,6 @@ class controlador_tg_cte_alianza extends system {
             die('Error');
         }
 
-        if(isset($_POST['guarda'])){
-            unset($_POST['guarda']);
-        }
-        if(isset($_POST['btn_action_next'])){
-            unset($_POST['btn_action_next']);
-        }
-
         return $r_alta;
     }
 
@@ -128,6 +121,10 @@ class controlador_tg_cte_alianza extends system {
         }
 
         return $r_alta_bd;
+    }
+
+    public function asigna_cliente(bool $header, bool $ws = false){
+
     }
 
     public function lista(bool $header, bool $ws = false): array
