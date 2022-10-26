@@ -10,6 +10,8 @@
         <div class="col-md-8">
             <h3>Alta Alianzas</h3>
             <?php include "templates/tg_cte_alianza/_base/buttons/1.azul.php"; ?>
+            <hr class="hr-menu-lateral">
+            <?php include "templates/tg_cte_alianza/_base/buttons/2.gris.php"; ?>
         </div>
     </div>
 </div>
