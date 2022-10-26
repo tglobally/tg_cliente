@@ -142,7 +142,7 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: false,name: 'nombre_contacto_1',place_holder: 'Nombre contacto 1',
+        $html =$this->directivas->input_text_required(disabled: false,name: 'nombre_contacto_1',place_holder: 'Nombre contacto 1',
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -163,7 +163,7 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: false,name: 'nombre_contacto_2',place_holder: 'Nombre contacto 2',
+        $html =$this->directivas->input_text_required(disabled: false,name: 'nombre_contacto_2',place_holder: 'Nombre contacto 2',
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -184,7 +184,7 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: false,name: 'nombre_contacto_3',place_holder: 'Nombre contacto 3',
+        $html =$this->directivas->input_text_required(disabled: false,name: 'nombre_contacto_3',place_holder: 'Nombre contacto 3',
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -205,7 +205,7 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: false,name: 'telefono_1',place_holder: 'Telefono 1',
+        $html =$this->directivas->input_text_required(disabled: false,name: 'telefono_1',place_holder: 'Telefono 1',
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -226,7 +226,7 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: false,name: 'telefono_2',place_holder: 'Telefono 2',
+        $html =$this->directivas->input_text_required(disabled: false,name: 'telefono_2',place_holder: 'Telefono 2',
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
@@ -247,7 +247,7 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disable: false,name: 'telefono_3',place_holder: 'Telefono 3',
+        $html =$this->directivas->input_text_required(disabled: false,name: 'telefono_3',place_holder: 'Telefono 3',
             row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
