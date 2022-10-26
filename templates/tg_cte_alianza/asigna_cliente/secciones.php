@@ -5,7 +5,7 @@
 
     <div class="col-md-12 int_secciones ">
         <div class="col-md-4 seccion">
-            <img src="<?php echo (new views())->url_assets.'img/stepper/1.svg'?>" class="img-seccion">
+            <img src="<?php echo (new views())->url_assets.'img/stepper/2.svg'?>" class="img-seccion">
         </div>
         <div class="col-md-8">
             <h3>Alta Alianzas</h3>
