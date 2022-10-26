@@ -85,6 +85,36 @@ class tg_cte_alianza_html extends html_controler {
         return $alta_inputs;
     }
 
+    /**
+     * Inicializa los elementos de direcciones postales de un modifica
+     * @param PDO $link conexion  a la base de datos
+     * @param stdClass $row_upd Registro en proceso
+     * @return array|stdClass
+     * @version 0.35.3
+     */
+    private function init_dps_modifica(PDO $link, stdClass $row_upd): array|stdClass
+    {
+        $keys = array('dp_calle_pertenece_id');
+        $valida = $this->validacion->valida_ids(keys: $keys, registro: $row_upd);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al validar row_upd',data:  $valida);
+        }
+
+        $dp_calle_pertenece = (new dp_calle_pertenece(link:$link))->registro(
+            registro_id: $row_upd->dp_calle_pertenece_id, retorno_obj: true);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al obtener dp_calle_pertenece',data:  $dp_calle_pertenece);
+        }
+
+        $keys_dp = array('dp_pais_id','dp_estado_id','dp_municipio_id','dp_cp_id','dp_colonia_postal_id');
+        foreach ($keys_dp as $key){
+            if(!isset($row_upd->$key)){
+                $row_upd->$key = $dp_calle_pertenece->$key;
+            }
+        }
+        return $row_upd;
+    }
+
     private function init_modifica(PDO $link, stdClass $row_upd): array|stdClass
     {
 
@@ -308,28 +338,11 @@ class tg_cte_alianza_html extends html_controler {
 
         $selects = new stdClass();
 
-        $dp_calle_pertenece = (new dp_calle_pertenece(link:$link))->registro(
-            registro_id: $row_upd->dp_calle_pertenece_id, retorno_obj: true);
+
+        $row_upd = $this->init_dps_modifica(link: $link,row_upd:  $row_upd);
         if(errores::$error){
-            return $this->error->error(mensaje: 'Error al obtener dp_calle_pertenece',data:  $dp_calle_pertenece);
+            return $this->error->error(mensaje: 'Error al inicializar row_upd',data:  $row_upd);
         }
-
-        if(!isset($row_upd->dp_pais_id)){
-            $row_upd->dp_pais_id = $dp_calle_pertenece->dp_pais_id;
-        }
-        if(!isset($row_upd->dp_estado_id)){
-            $row_upd->dp_estado_id = $dp_calle_pertenece->dp_estado_id;
-        }
-        if(!isset($row_upd->dp_municipio_id)){
-            $row_upd->dp_municipio_id = $dp_calle_pertenece->dp_municipio_id;
-        }
-        if(!isset($row_upd->dp_cp_id)){
-            $row_upd->dp_cp_id = $dp_calle_pertenece->dp_cp_id;
-        }
-        if(!isset($row_upd->dp_colonia_postal_id)){
-            $row_upd->dp_colonia_postal_id = $dp_calle_pertenece->dp_colonia_postal_id;
-        }
-
 
         $select = (new dp_pais_html(html:$this->html_base))->select_dp_pais_id(
             cols: 6, con_registros:true, id_selected:$row_upd->dp_pais_id,link: $link);
