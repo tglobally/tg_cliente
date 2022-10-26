@@ -1,6 +1,7 @@
 <?php
 namespace html;
 
+use gamboamartin\direccion_postal\models\dp_calle_pertenece;
 use gamboamartin\errores\errores;
 use gamboamartin\system\html_controler;
 use models\tg_cte_alianza;
@@ -304,7 +305,31 @@ class tg_cte_alianza_html extends html_controler {
 
     private function selects_modifica(PDO $link, stdClass $row_upd): array|stdClass
     {
+
         $selects = new stdClass();
+
+        $dp_calle_pertenece = (new dp_calle_pertenece(link:$link))->registro(
+            registro_id: $row_upd->dp_calle_pertenece_id, retorno_obj: true);
+        if(errores::$error){
+            return $this->error->error(mensaje: 'Error al obtener dp_calle_pertenece',data:  $dp_calle_pertenece);
+        }
+
+        if(!isset($row_upd->dp_pais_id)){
+            $row_upd->dp_pais_id = $dp_calle_pertenece->dp_pais_id;
+        }
+        if(!isset($row_upd->dp_estado_id)){
+            $row_upd->dp_estado_id = $dp_calle_pertenece->dp_estado_id;
+        }
+        if(!isset($row_upd->dp_municipio_id)){
+            $row_upd->dp_municipio_id = $dp_calle_pertenece->dp_municipio_id;
+        }
+        if(!isset($row_upd->dp_cp_id)){
+            $row_upd->dp_cp_id = $dp_calle_pertenece->dp_cp_id;
+        }
+        if(!isset($row_upd->dp_colonia_postal_id)){
+            $row_upd->dp_colonia_postal_id = $dp_calle_pertenece->dp_colonia_postal_id;
+        }
+
 
         $select = (new dp_pais_html(html:$this->html_base))->select_dp_pais_id(
             cols: 6, con_registros:true, id_selected:$row_upd->dp_pais_id,link: $link);
