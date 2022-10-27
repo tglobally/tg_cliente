@@ -14,6 +14,9 @@
                 <?php echo $controlador->inputs->obj_imp; ?>
                 <?php echo $controlador->inputs->select->cat_sat_producto_id; ?>
                 <?php echo $controlador->inputs->select->cat_sat_unidad_id; ?>
+                <?php echo $controlador->inputs->select->cat_sat_obj_imp_id; ?>
+                <?php echo $controlador->inputs->select->cat_sat_tipo_factor_id; ?>
+                <?php echo $controlador->inputs->select->cat_sat_factor_id; ?>
 
                 <div class="buttons col-md-12">
                     <div class="col-md-6 btn-ancho">

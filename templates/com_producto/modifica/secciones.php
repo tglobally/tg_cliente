@@ -9,8 +9,8 @@
         <div class="col-md-8">
             <h3>Alta Productos</h3>
             <?php include "templates/com_producto/_base/buttons/1.azul.php"; ?>
-            <hr class="hr-menu-lateral">
-<!--     ?php //include "templates/com_producto/_base/links/2.php"; ?>       --><
+            <!--<hr class="hr-menu-lateral">
+     ?php //include "templates/com_producto/_base/links/2.php"; ?>       -->
 
         </div>
     </div>
