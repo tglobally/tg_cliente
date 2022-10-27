@@ -226,8 +226,8 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disabled: false,name: 'telefono_2',place_holder: 'Telefono 2',
-            row_upd: $row_upd, value_vacio: $value_vacio);
+        $html =$this->directivas->input_text(disabled: false,name: 'telefono_2',place_holder: 'Telefono 2',
+            required: false, row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
         }
@@ -247,8 +247,8 @@ class tg_cte_alianza_html extends html_controler {
             return $this->error->error(mensaje: 'Error al validar columnas', data: $valida);
         }
 
-        $html =$this->directivas->input_text_required(disabled: false,name: 'telefono_3',place_holder: 'Telefono 3',
-            row_upd: $row_upd, value_vacio: $value_vacio);
+        $html =$this->directivas->input_text(disabled: false,name: 'telefono_3',place_holder: 'Telefono 3',
+            required: false, row_upd: $row_upd, value_vacio: $value_vacio);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar input', data: $html);
         }
