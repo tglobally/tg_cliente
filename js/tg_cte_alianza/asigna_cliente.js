@@ -1,0 +1,6 @@
+$('#com_cliente').DataTable();
+
+
+
+
+

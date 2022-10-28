@@ -396,12 +396,13 @@ class tg_cte_alianza_html extends html_controler {
         return $selects;
     }
 
-    public function select_tg_cte_alianza_id(int $cols, bool $con_registros, int $id_selected, PDO $link): array|string
+    public function select_tg_cte_alianza_id(int $cols, bool $con_registros, int $id_selected, PDO $link,
+                                             bool $disabled = false): array|string
     {
         $modelo = new tg_cte_alianza(link: $link);
 
-        $select = $this->select_catalogo(cols:$cols,con_registros:$con_registros,id_selected:$id_selected,
-            modelo: $modelo,label: 'Alianza',required: true);
+        $select = $this->select_catalogo(cols: $cols, con_registros: $con_registros, id_selected: $id_selected,
+            modelo: $modelo, disabled: $disabled, label: 'Alianza', required: true);
         if(errores::$error){
             return $this->error->error(mensaje: 'Error al generar select', data: $select);
         }

@@ -1,6 +1,7 @@
 <?php
 namespace models;
 use base\orm\modelo;
+use gamboamartin\errores\errores;
 use PDO;
 
 class tg_cte_alianza extends modelo{
@@ -17,4 +18,18 @@ class tg_cte_alianza extends modelo{
 
         $this->NAMESPACE = __NAMESPACE__;
     }
+
+    public function com_cliente_by_alianza(int $tg_cte_alianza_id): array
+    {
+
+        $filtro['tg_cte_alianza.id'] = $tg_cte_alianza_id;
+        $r_tg_com_cliente_alianza = (new tg_com_rel_cliente($this->link))->filtro_and(filtro:$filtro);
+        if(errores::$error){
+
+            return $this->error->error(mensaje: 'Error al limpiar datos',data:  $r_tg_com_cliente_alianza);
+        }
+        return $r_tg_com_cliente_alianza->registros;
+
+    }
+
 }
