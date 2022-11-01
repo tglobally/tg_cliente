@@ -32,8 +32,28 @@ class controlador_tg_cte_alianza extends system {
         $modelo = new tg_cte_alianza(link: $link);
         $html_ = new tg_cte_alianza_html(html: $html);
         $obj_link = new links_menu($this->registro_id);
-        parent::__construct(html:$html_, link: $link,modelo:  $modelo, obj_link: $obj_link, paths_conf: $paths_conf);
 
+        $columns["tg_cte_alianza_id"]["titulo"] = "Id";
+        $columns["tg_cte_alianza_codigo"]["titulo"] = "Codigo";
+        $columns["tg_cte_alianza_codigo_bis"]["titulo"] = "Codigo bis";
+        $columns["tg_cte_alianza_descripcion"]["titulo"] = "Descripcion";
+        $columns["tg_cte_alianza_tipo_alianza"]["titulo"] = "Tipo alianza";
+
+        $filtro = array("tg_cte_alianza.id","tg_cte_alianza.codigo","tg_cte_alianza.codigo_bis",
+            "tg_cte_alianza.descripcion");
+
+        $datatables = new stdClass();
+        $datatables->columns = $columns;
+
+        parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
+            paths_conf: $paths_conf);
+
+        $obj_link->genera_links($this);
+        if (errores::$error) {
+            $error = $this->errores->error(mensaje: 'Error al inicializar links', data: $obj_link);
+            print_r($error);
+            die('Error');
+        }
         $this->titulo_lista = 'Alianza';
     }
 
