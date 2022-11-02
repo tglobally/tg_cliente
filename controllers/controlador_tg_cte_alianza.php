@@ -31,7 +31,7 @@ class controlador_tg_cte_alianza extends system {
                                 stdClass $paths_conf = new stdClass()){
         $modelo = new tg_cte_alianza(link: $link);
         $html_ = new tg_cte_alianza_html(html: $html);
-        $obj_link = new links_menu($this->registro_id);
+        $obj_link = new links_menu(link: $link,registro_id: $this->registro_id);
 
         $columns["tg_cte_alianza_id"]["titulo"] = "Id";
         $columns["tg_cte_alianza_codigo"]["titulo"] = "Codigo";
