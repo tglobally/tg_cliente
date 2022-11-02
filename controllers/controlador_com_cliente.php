@@ -8,6 +8,7 @@
  */
 namespace tglobally\tg_cliente\controllers;
 
+use gamboamartin\comercial\models\com_sucursal;
 use gamboamartin\errores\errores;
 use gamboamartin\system\actions;
 use gamboamartin\system\links_menu;
@@ -27,12 +28,16 @@ use tglobally\template_tg\html;
 class controlador_com_cliente extends \gamboamartin\comercial\controllers\controlador_com_cliente {
 
     public array $com_clientes = array();
+    public controlador_com_sucursal $controlador_com_sucursal;
 
     public function __construct(PDO $link, stdClass $paths_conf = new stdClass()){
 
         $html_base = new html();
         parent::__construct( link: $link, html: $html_base);
         $this->titulo_lista = 'Clientes';
+
+        $this->controlador_com_sucursal= new controlador_com_sucursal(link:$this->link, paths_conf: $paths_conf);
+
     }
 
     public function asigna_alianza(bool $header, bool $ws = false){
@@ -120,6 +125,63 @@ class controlador_com_cliente extends \gamboamartin\comercial\controllers\contro
         return $r_alta_bd;
 
 
+    }
+
+    public function sucursal(bool $header, bool $ws = false){
+
+        $alta = $this->controlador_com_sucursal->alta(header: false);
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'Error al generar template', data: $alta, header: $header, ws: $ws);
+        }
+
+        $this->inputs = $this->controlador_com_sucursal->genera_inputs(
+            keys_selects:  $this->controlador_com_sucursal->keys_selects);
+        if (errores::$error) {
+            $error = $this->errores->error(mensaje: 'Error al generar inputs', data: $this->inputs);
+            print_r($error);
+            die('Error');
+        }
+    }
+
+    public function alta_sucursal_bd(bool $header, bool $ws = false){
+        $this->link->beginTransaction();
+
+        $siguiente_view = (new actions())->init_alta_bd();
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(
+                mensaje: 'Error al inicializar', data: $siguiente_view, header: $header, ws: $ws);
+        }
+
+        $_POST['com_cliente_id'] = $this->registro_id;
+
+        $alta = (new com_sucursal($this->link))->alta_registro(registro: $_POST);
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(mensaje: 'Error al dar de alta cuenta bancaria', data: $alta,
+                header: $header, ws: $ws);
+        }
+
+        $this->link->commit();
+
+        if ($header) {
+            $this->retorno_base(registro_id:$this->registro_id, result: $alta,
+                siguiente_view: "cuenta_bancaria", ws:  $ws);
+        }
+        if ($ws) {
+            header('Content-Type: application/json');
+            try {
+                echo json_encode($alta, JSON_THROW_ON_ERROR);
+            }
+            catch (Throwable $e){
+                $error = (new errores())->error(mensaje:'Error', data: $e);
+                print_r($error);
+            }
+            exit;
+        }
+        $alta->siguiente_view = "cuenta_bancaria";
+
+        return $alta;
     }
 
 }

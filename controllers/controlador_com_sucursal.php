@@ -11,6 +11,7 @@ use tglobally\template_tg\html;
 
 class controlador_com_sucursal extends \gamboamartin\comercial\controllers\controlador_com_sucursal {
 
+    public array $keys_selects = array();
 
     public function __construct(PDO $link, stdClass $paths_conf = new stdClass()){
         $html_base = new html();
