@@ -54,7 +54,7 @@ class controlador_com_cliente extends \gamboamartin\comercial\controllers\contro
             cols:12, con_registros: true,id_selected: -1,link:  $this->link);
 
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_cliente_id, header: $header,ws:$ws);
+            return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $tg_cte_alianza_id, header: $header,ws:$ws);
         }
 
         $this->inputs->select->com_cliente_id = $com_cliente_id;
@@ -141,6 +141,14 @@ class controlador_com_cliente extends \gamboamartin\comercial\controllers\contro
             print_r($error);
             die('Error');
         }
+        $com_cliente_id = (new com_cliente_html(html: $this->html_base))->select_com_cliente_id(
+            cols:6, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
+
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_cliente_id, header: $header,ws:$ws);
+        }
+        $this->inputs->select->com_cliente_id = $com_cliente_id;
+
     }
 
     public function alta_sucursal_bd(bool $header, bool $ws = false){
