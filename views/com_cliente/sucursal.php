@@ -44,23 +44,28 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>RFC</th>
-                <th>Razon Social</th>
-                <th>Acciones</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Cp</th>
+                <th>Municipio</th>
+                <th>Telefono</th>
+                <th>Acciones </th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($controlador->com_clientes as $com_cliente){ ?>
+            <?php foreach ($controlador->sucursales->registros as $sucursal){ ?>
                 <tr>
-                    <td><?php echo $com_cliente['com_cliente_id']; ?></td>
-                    <td><?php echo $com_cliente['com_cliente_rfc']; ?></td>
-                    <td><?php echo $com_cliente['com_cliente_razon_social']; ?></td>
+                    <td><?php echo $sucursal['com_sucursal_id']; ?></td>
+                    <td><?php echo $sucursal['com_sucursal_codigo']; ?></td>
+                    <td><?php echo $sucursal['com_sucursal_descripcion']; ?></td>
 
-                    <td>
-                        <?php foreach ($com_cliente['acciones'] as $link){ ?>
-                            <div class="col-md-3"><?php echo $link; ?></div>
-                        <?php } ?>
-                    </td>
+                    <td><?php echo $sucursal['dp_cp_descripcion']; ?></td>
+                    <td><?php echo $sucursal['dp_municipio_descripcion']; ?></td>
+                    <td><?php echo $sucursal['com_sucursal_telefono_1']; ?></td>
+
+                    <td><?php echo $sucursal['link_modifica']; ?></td>
+                    <td><?php echo $sucursal['link_elimina']; ?></td>
+
                 </tr>
             <?php } ?>
             </tbody>
