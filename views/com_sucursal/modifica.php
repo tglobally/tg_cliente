@@ -1,5 +1,5 @@
 <?php /** @var \tglobally\tg_cliente\controllers\controlador_com_sucursal $controlador */ ?>
-<?php include 'templates/com_sucursal/alta/secciones.php'; ?>
+<?php include 'templates/com_sucursal/modifica/secciones.php'; ?>
 <div class="col-md-9 formulario">
     <div class="col-lg-12">
 

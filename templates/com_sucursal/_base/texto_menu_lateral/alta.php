@@ -1,1 +1,1 @@
-<span class="texto-menu-lateral">Alta Sucursales</span>
+<span class="texto-menu-lateral">Alta Sucursal</span>
