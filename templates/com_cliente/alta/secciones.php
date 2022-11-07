@@ -12,6 +12,8 @@
             <?php include "templates/com_cliente/_base/buttons/2.gris.php"; ?>
             <hr class="hr-menu-lateral">
             <?php include "templates/com_cliente/_base/buttons/3.gris.php"; ?>
+            <hr class="hr-menu-lateral">
+            <?php include "templates/com_cliente/_base/buttons/4.gris.php"; ?>
         </div>
     </div>
 </div>

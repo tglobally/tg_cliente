@@ -14,6 +14,8 @@
             <?php include "templates/com_cliente/_base/links/2.php"; ?>
             <hr class="hr-menu-lateral">
             <?php include "templates/com_cliente/_base/buttons/3.azul.php"; ?>
+            <hr class="hr-menu-lateral">
+            <?php include "templates/com_cliente/_base/links/4.php"; ?>
         </div>
     </div>
 </div>
