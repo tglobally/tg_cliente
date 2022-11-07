@@ -8,6 +8,7 @@
  */
 namespace tglobally\tg_cliente\controllers;
 
+use gamboamartin\comercial\models\com_cliente;
 use gamboamartin\comercial\models\com_sucursal;
 use gamboamartin\errores\errores;
 use gamboamartin\system\actions;
@@ -27,7 +28,7 @@ use tglobally\template_tg\html;
 
 class controlador_com_cliente extends \gamboamartin\comercial\controllers\controlador_com_cliente {
 
-    public array $com_clientes = array();
+    public array $tg_cte_alianzas = array();
     public controlador_com_sucursal $controlador_com_sucursal;
 
     public function __construct(PDO $link, stdClass $paths_conf = new stdClass()){
@@ -95,6 +96,7 @@ class controlador_com_cliente extends \gamboamartin\comercial\controllers\contro
     public function asigna_alianza(bool $header, bool $ws = false){
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
+
         $com_cliente_id = (new com_cliente_html(html: $this->html_base))->select_com_cliente_id(
             cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
 
@@ -113,17 +115,17 @@ class controlador_com_cliente extends \gamboamartin\comercial\controllers\contro
         $this->inputs->select->tg_cte_alianza_id = $tg_cte_alianza_id;
 
 
-        $com_clientes = (new tg_cte_alianza(link: $this->link))->com_cliente_by_alianza(tg_cte_alianza_id: $this->registro_id);
+        $tg_cte_alianzas = (new tg_cte_alianza(link: $this->link))->tg_cte_alianza_by_cliente(com_cliente_id: $this->registro_id);;
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al obtener clientes',data:  $com_clientes, header: $header,ws:$ws);
+            return $this->retorno_error(mensaje: 'Error al obtener clientes',data:  $tg_cte_alianzas, header: $header,ws:$ws);
         }
 
-        $com_clientes = $this->rows_con_permisos(key_id:  'tg_com_rel_cliente_id',rows:  $com_clientes,seccion: 'tg_com_rel_cliente');
+        $tg_cte_alianzas = $this->rows_con_permisos(key_id:  'tg_com_rel_cliente_id',rows:  $tg_cte_alianzas,seccion: 'tg_com_rel_cliente');
         if(errores::$error){
-            return $this->retorno_error(mensaje: 'Error al integrar links',data:  $com_clientes, header: $header, ws: $ws);
+            return $this->retorno_error(mensaje: 'Error al integrar links',data:  $tg_cte_alianzas, header: $header, ws: $ws);
         }
 
-        $this->com_clientes = $com_clientes;
+        $this->tg_cte_alianzas = $tg_cte_alianzas;
     }
 
     private function data_sucursal_btn(array $sucursal): array

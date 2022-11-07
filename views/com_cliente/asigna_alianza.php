@@ -31,20 +31,20 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>RFC</th>
-                <th>Razon Social</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($controlador->com_clientes as $com_cliente){ ?>
+            <?php foreach ($controlador->tg_cte_alianzas as $tg_cte_alianza){ ?>
                 <tr>
-                    <td><?php echo $com_cliente['com_cliente_id']; ?></td>
-                    <td><?php echo $com_cliente['com_cliente_rfc']; ?></td>
-                    <td><?php echo $com_cliente['com_cliente_razon_social']; ?></td>
+                    <td><?php echo $tg_cte_alianza['tg_cte_alianza_id']; ?></td>
+                    <td><?php echo $tg_cte_alianza['tg_cte_alianza_codigo']; ?></td>
+                    <td><?php echo $tg_cte_alianza['tg_cte_alianza_descripcion']; ?></td>
 
                     <td>
-                        <?php foreach ($com_cliente['acciones'] as $link){ ?>
+                        <?php foreach ($tg_cte_alianza['acciones'] as $link){ ?>
                             <div class="col-md-3"><?php echo $link; ?></div>
                         <?php } ?>
                     </td>
