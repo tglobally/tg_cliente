@@ -26,30 +26,29 @@
 
 
     <div class="col-lg-12 row-12">
-        <table id="com_cliente" class="table table-striped" >
+        <table id="em_empleado" class="table table-striped" >
             <thead>
             <tr>
                 <th>Id</th>
+                <th>Descripcion</th>
                 <th>RFC</th>
-                <th>Razon Social</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <!--em_empleado instead com_cliente
-            <?php foreach ($controlador->com_clientes as $com_cliente){ ?>
+            <?php foreach ($controlador->em_empleados as $em_empleado){ ?>
                 <tr>
-                    <td><?php echo $com_cliente['com_cliente_id']; ?></td>
-                    <td><?php echo $com_cliente['com_cliente_rfc']; ?></td>
-                    <td><?php echo $com_cliente['com_cliente_razon_social']; ?></td>
+                    <td><?php echo $em_empleado['em_empleado_id']; ?></td>
+                    <td><?php echo $em_empleado['em_empleado_descripcion']; ?></td>
+                    <td><?php echo $em_empleado['em_empleado_rfc']; ?></td>
 
                     <td>
-                        <?php foreach ($com_cliente['acciones'] as $link){ ?>
+                        <?php foreach ($em_empleado['acciones'] as $link){ ?>
                             <div class="col-md-3"><?php echo $link; ?></div>
                         <?php } ?>
                     </td>
                 </tr>
-            <?php } ?> -->
+            <?php } ?>
             </tbody>
 
         </table>

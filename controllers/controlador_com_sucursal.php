@@ -1,6 +1,8 @@
 <?php
 namespace tglobally\tg_cliente\controllers;
 
+use gamboamartin\comercial\models\com_sucursal;
+use gamboamartin\empleado\models\em_empleado;
 use gamboamartin\errores\errores;
 use gamboamartin\system\actions;
 use html\com_sucursal_html;
@@ -13,7 +15,7 @@ use tglobally\template_tg\html;
 class controlador_com_sucursal extends \gamboamartin\comercial\controllers\controlador_com_sucursal
 {
 
-    /*public array $em_empleados = array();*/
+    public array $em_empleados = array();
     public array $keys_selects = array();
 
     public function __construct(PDO $link, stdClass $paths_conf = new stdClass())
@@ -43,7 +45,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $this->inputs->select->com_sucursal_id = $com_sucursal_id;
 
 
-        /*$em_empleados = (new com_sucursal(link: $this->link))->em_empleado_by_sucursal(com_sucursal_id: $this->registro_id);
+        $em_empleados = (new com_sucursal(link: $this->link))->em_empleado_by_sucursal(com_sucursal_id: $this->registro_id);
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener empleados',data:  $em_empleados, header: $header,ws:$ws);
         }
@@ -53,7 +55,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
             return $this->retorno_error(mensaje: 'Error al integrar links',data:  $em_empleados, header: $header, ws: $ws);
         }
 
-        $this->em_empleados = $em_empleados;*/
+        $this->em_empleados = $em_empleados;
     }
 
     public function rel_empleado_sucursal_bd(bool $header, bool $ws = false){
