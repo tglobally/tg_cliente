@@ -94,7 +94,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 
         if($header){
             if($id_retorno === -1) {
-                $id_retorno = $r_alta_bd->registro_id;
+                $id_retorno = $this->registro_id;
             }
             $this->retorno_base(registro_id:$id_retorno, result: $r_alta_bd, siguiente_view: $siguiente_view,
                 ws:  $ws,seccion_retorno: $seccion_retorno);
