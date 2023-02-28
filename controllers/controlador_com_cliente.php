@@ -11,18 +11,14 @@ namespace tglobally\tg_cliente\controllers;
 use gamboamartin\comercial\models\com_cliente;
 use gamboamartin\comercial\models\com_sucursal;
 use gamboamartin\errores\errores;
+use gamboamartin\nomina\models\nom_rel_empleado_sucursal;
 use gamboamartin\system\actions;
-use gamboamartin\system\links_menu;
-use gamboamartin\system\system;
-
 
 use html\com_cliente_html;
 use html\com_sucursal_html;
 use html\em_empleado_html;
 use html\tg_cte_alianza_html;
 
-
-use models\nom_rel_empleado_sucursal;
 use models\tg_com_rel_cliente;
 use models\tg_cte_alianza;
 use PDO;
@@ -301,12 +297,12 @@ class controlador_com_cliente extends \gamboamartin\comercial\controllers\contro
             die('Error');
         }
         $com_cliente_id = (new com_cliente_html(html: $this->html_base))->select_com_cliente_id(
-            cols:6, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
+            cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
 
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_cliente_id, header: $header,ws:$ws);
         }
-        $this->inputs->select->com_cliente_id = $com_cliente_id;
+        $this->inputs->com_cliente_id = $com_cliente_id;
 
 
         $sucursales = (new com_sucursal($this->link))->sucursales(com_cliente_id: $this->registro_id);
