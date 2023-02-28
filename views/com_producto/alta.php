@@ -8,15 +8,16 @@
         <div class="  form-main" id="form">
             <form method="post" action="./index.php?seccion=com_producto&accion=alta_bd&session_id=<?php echo $controlador->session_id; ?>" class="form-additional">
 
+                <?php echo $controlador->inputs->cat_sat_tipo_producto_id; ?>
+                <?php echo $controlador->inputs->cat_sat_division_producto_id; ?>
+                <?php echo $controlador->inputs->cat_sat_grupo_producto_id; ?>
+                <?php echo $controlador->inputs->cat_sat_clase_producto_id; ?>
+                <?php echo $controlador->inputs->cat_sat_producto_id; ?>
                 <?php echo $controlador->inputs->codigo; ?>
-                <?php echo $controlador->inputs->codigo_bis; ?>
+                <?php echo $controlador->inputs->com_tipo_producto_id; ?>
                 <?php echo $controlador->inputs->descripcion; ?>
-                <?php echo $controlador->inputs->obj_imp; ?>
-                <?php echo $controlador->inputs->select->cat_sat_producto_id; ?>
-                <?php echo $controlador->inputs->select->cat_sat_unidad_id; ?>
-                <?php echo $controlador->inputs->select->cat_sat_obj_imp_id; ?>
-                <?php echo $controlador->inputs->select->cat_sat_tipo_factor_id; ?>
-                <?php echo $controlador->inputs->select->cat_sat_factor_id; ?>
+                <?php echo $controlador->inputs->cat_sat_unidad_id; ?>
+                <?php echo $controlador->inputs->cat_sat_obj_imp_id; ?>
 
                 <div class="buttons col-md-12">
                     <div class="col-md-6">
