@@ -16,7 +16,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 {
 
     public array $em_empleados = array();
-    public array $keys_selects = array();
+    public stdClass|array $keys_selects = array();
 
     public function __construct(PDO $link, stdClass $paths_conf = new stdClass())
     {
