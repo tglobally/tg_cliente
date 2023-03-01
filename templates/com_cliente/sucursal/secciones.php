@@ -8,7 +8,7 @@
             <img src="<?php echo (new views())->url_assets.'img/stepper/2.svg'?>" class="img-seccion">
         </div>
         <div class="col-md-8">
-            <h3>Alta Alianzas</h3>
+            <h3>Alta Sucursal</h3>
             <?php include "templates/com_cliente/_base/links/1.php"; ?>
             <hr class="hr-menu-lateral">
             <?php include "templates/com_cliente/_base/buttons/2.azul.php"; ?>
