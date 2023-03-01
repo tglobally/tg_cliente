@@ -37,7 +37,7 @@ class controlador_tg_cte_alianza extends system {
         $columns["tg_cte_alianza_codigo"]["titulo"] = "Codigo";
         $columns["tg_cte_alianza_codigo_bis"]["titulo"] = "Codigo bis";
         $columns["tg_cte_alianza_descripcion"]["titulo"] = "Descripcion";
-        $columns["tg_cte_alianza_tipo_alianza"]["titulo"] = "Tipo alianza";
+        $columns["tg_cte_tipo_alianza_descripcion"]["titulo"] = "Tipo alianza";
 
         $filtro = array("tg_cte_alianza.id","tg_cte_alianza.codigo","tg_cte_alianza.codigo_bis",
             "tg_cte_alianza.descripcion");
