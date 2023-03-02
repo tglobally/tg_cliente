@@ -13,7 +13,7 @@
 
                 <div class="buttons col-md-12">
                     <div class="col-md-6 btn-ancho">
-                        <button type="submit" name="btn_action_next" value="asigna_empleado" class="btn btn-info btn-guarda col-md-12 " >Nueva</button>
+                        <button type="submit" name="btn_action_next" class="btn btn-info btn-guarda col-md-12 " >Nueva</button>
                     </div>
                     <div class="col-md-6 btn-ancho">
                         <a href="index.php?seccion=com_sucursal&accion=lista&session_id=<?php echo $controlador->session_id; ?>" class="btn btn-info btn-guarda col-md-12 ">Lista</a>
