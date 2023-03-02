@@ -45,7 +45,17 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $this->inputs->select->em_empleado_id = $em_empleado_id;
         $this->inputs->select->com_sucursal_id = $com_sucursal_id;
 
+        $em_empleados = (new com_sucursal(link: $this->link))->em_empleado_by_sucursal(com_sucursal_id: $this->registro_id);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener empleados',data:  $em_empleados, header: $header,ws:$ws);
+        }
 
+        $em_empleados = $this->rows_con_permisos(key_id:  'nom_rel_empleado_sucursal_id',rows:  $em_empleados,seccion: 'nom_rel_empleado_sucursal');
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al integrar links',data:  $em_empleados, header: $header, ws: $ws);
+        }
+
+        $this->em_empleados = $em_empleados;
 
     }
 
