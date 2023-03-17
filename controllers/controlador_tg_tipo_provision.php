@@ -5,12 +5,9 @@ namespace tglobally\tg_cliente\controllers;
 use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_base;
 use gamboamartin\system\links_menu;
-use gamboamartin\system\system;
 use gamboamartin\template\html;
 use html\tg_tipo_provision_html;
-use html\tg_tipo_servicio_html;
-use tglobally\tg_nomina\models\tg_tipo_provision;
-use tglobally\tg_nomina\models\tg_tipo_servicio;
+use models\tg_tipo_provision;
 use PDO;
 use stdClass;
 
