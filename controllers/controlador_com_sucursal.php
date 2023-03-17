@@ -42,8 +42,15 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
             return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_sucursal_id, header: $header,ws:$ws);
         }
 
+        $tg_tipo_provision_id = (new com_sucursal_html(html: $this->html_base))->select_com_sucursal_id(
+            cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener tg_tipo_provision_id',data:  $tg_tipo_provision_id, header: $header,ws:$ws);
+        }
+
         $this->inputs->select->em_empleado_id = $em_empleado_id;
         $this->inputs->select->com_sucursal_id = $com_sucursal_id;
+        $this->inputs->select->tg_tipo_provision_id = $tg_tipo_provision_id;
 
         $em_empleados = (new nom_rel_empleado_sucursal(link: $this->link))->em_empleado_by_nom_rel_empleado_sucursal(com_sucursal_id: $this->registro_id);
         if(errores::$error){
