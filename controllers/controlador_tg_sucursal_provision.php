@@ -6,22 +6,25 @@ use gamboamartin\errores\errores;
 use gamboamartin\system\_ctl_base;
 use gamboamartin\system\links_menu;
 use gamboamartin\template\html;
+use html\tg_sucursal_provision_html;
 use html\tg_tipo_provision_html;
 use PDO;
 use stdClass;
+use tglobally\tg_cliente\models\tg_sucursal_provision;
 use tglobally\tg_cliente\models\tg_tipo_provision;
 
-class controlador_tg_tipo_provision extends _ctl_base
+class controlador_tg_sucursal_provision extends _ctl_base
 {
-
     public array $sidebar = array();
 
     public function __construct(PDO      $link, html $html = new \gamboamartin\template_1\html(),
                                 stdClass $paths_conf = new stdClass())
     {
-        $modelo = new tg_tipo_provision(link: $link);
-        $html_ = new tg_tipo_provision_html(html: $html);
+        $modelo = new tg_sucursal_provision(link: $link);
+        $html_ = new tg_sucursal_provision_html(html: $html);
         $obj_link = new links_menu(link: $link, registro_id: $this->registro_id);
+
+        $this->titulo_lista = 'Provisiones';
 
         $datatables = $this->init_datatable();
         if (errores::$error) {
@@ -32,8 +35,6 @@ class controlador_tg_tipo_provision extends _ctl_base
 
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
-
-        $this->titulo_lista = 'Tipos de Provisiones';
 
         $sidebar = $this->init_sidebar();
         if (errores::$error) {
@@ -58,16 +59,16 @@ class controlador_tg_tipo_provision extends _ctl_base
         $menu_items->alta['menu_lateral_active'] = true;
         $menu_items->modifica['menu_lateral_active'] = true;
 
-        $this->sidebar['lista']['titulo'] = "Tipo Provision";
+        $this->sidebar['lista']['titulo'] = "Sucursal Provision";
         $this->sidebar['lista']['menu'] = array($menu_items->alta);
 
         $menu_items->alta['menu_seccion_active'] = false;
 
-        $this->sidebar['alta']['titulo'] = "Tipo Provision";
+        $this->sidebar['alta']['titulo'] = "Sucursal Provision";
         $this->sidebar['alta']['stepper_active'] = true;
         $this->sidebar['alta']['menu'] = array($menu_items->alta);
 
-        $this->sidebar['modifica']['titulo'] = "Tipo Provision";
+        $this->sidebar['modifica']['titulo'] = "Sucursal Provision";
         $this->sidebar['modifica']['stepper_active'] = true;
         $this->sidebar['modifica']['menu'] = array($menu_items->modifica);
 
@@ -105,7 +106,9 @@ class controlador_tg_tipo_provision extends _ctl_base
         $keys->selects = array();
 
         $init_data = array();
-        $init_data['nom_percepcion'] = "gamboamartin\\nomina";
+        $init_data['com_sucursal'] = "gamboamartin\\comercial";
+        $init_data['org_sucursal'] = "gamboamartin\\organigrama";
+        $init_data['tg_tipo_provision'] = "tglobally\\tg_cliente";
 
         $campos_view = $this->campos_view_base(init_data: $init_data, keys: $keys);
         if (errores::$error) {
@@ -117,13 +120,11 @@ class controlador_tg_tipo_provision extends _ctl_base
 
     private function init_datatable(): stdClass
     {
-        $columns["tg_tipo_provision_id"]["titulo"] = "Id";
-        $columns["tg_tipo_provision_codigo"]["titulo"] = "Código";
-        $columns["tg_tipo_provision_descripcion"]["titulo"] = "Tipo de Provisión";
-        $columns["nom_percepcion_descripcion"]["titulo"] = "Percepción";
+        $columns["tg_sucursal_provision_id"]["titulo"] = "Id";
+        $columns["tg_sucursal_provision_codigo"]["titulo"] = "Código";
+        $columns["tg_sucursal_provision_descripcion"]["titulo"] = "Provisión";
 
-        $filtro = array("tg_tipo_provision.id", "tg_tipo_provision.codigo", "tg_tipo_provision.descripcion",
-            "nom_percepcion.descripcion");
+        $filtro = array("tg_sucursal_provision.id", "tg_sucursal_provision.codigo", "tg_sucursal_provision.descripcion");
 
         $datatables = new stdClass();
         $datatables->columns = $columns;
@@ -146,8 +147,13 @@ class controlador_tg_tipo_provision extends _ctl_base
 
     public function init_selects_inputs(): array
     {
-        return $this->init_selects(keys_selects: array(), key: "nom_percepcion_id", label: "Percepción",
+       $keys_selects = $this->init_selects(keys_selects: array(), key: "com_sucursal_id", label: "Cliente",
+            cols: 6);
+        $keys_selects = $this->init_selects(keys_selects: $keys_selects, key: "org_sucursal_id", label: "Empresa",
+            cols: 6);
+        $keys_selects = $this->init_selects(keys_selects: $keys_selects, key: "tg_tipo_provision_id", label: "Tipo Provision",
             cols: 12);
+        return $keys_selects;
     }
 
     protected function key_selects_txt(array $keys_selects): array
@@ -159,7 +165,7 @@ class controlador_tg_tipo_provision extends _ctl_base
         }
 
         $keys_selects = (new \base\controller\init())->key_select_txt(cols: 8, key: 'descripcion',
-            keys_selects: $keys_selects, place_holder: 'Tipo de Provisión');
+            keys_selects: $keys_selects, place_holder: 'Provisión');
         if (errores::$error) {
             return $this->errores->error(mensaje: 'Error al maquetar key_selects', data: $keys_selects);
         }
@@ -192,7 +198,8 @@ class controlador_tg_tipo_provision extends _ctl_base
                 ws: $ws);
         }
 
-        $keys_selects['nom_percepcion_id']->id_selected = $this->registro['nom_percepcion_id'];
+        $keys_selects['com_sucursal_id']->id_selected = $this->registro['com_sucursal_id'];
+        $keys_selects['org_sucursal_id']->id_selected = $this->registro['org_sucursal_id'];
 
         $base = $this->base_upd(keys_selects: $keys_selects, params: array(), params_ajustados: array());
         if (errores::$error) {
