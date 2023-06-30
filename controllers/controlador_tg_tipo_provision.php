@@ -33,22 +33,45 @@ class controlador_tg_tipo_provision extends _ctl_base
         parent::__construct(html: $html_, link: $link, modelo: $modelo, obj_link: $obj_link, datatables: $datatables,
             paths_conf: $paths_conf);
 
-        $this->titulo_lista = 'Tipo Servicio';
+        $sidebar = $this->init_sidebar();
+        if (errores::$error) {
+            $error = $this->errores->error(mensaje: 'Error al inicializar sidebar', data: $sidebar);
+            print_r($error);
+            die('Error');
+        }
+    }
 
-        $this->sidebar['lista']['titulo'] = "Tipo de Provisión";
-        $this->sidebar['lista']['menu'] = array(
-            $this->menu_item(menu_item_titulo: "Alta", link: $this->link_alta, menu_seccion_active: true,
-                menu_lateral_active: true));
+    private function init_sidebar(): stdClass|array
+    {
+        $menu_items = new stdClass();
 
-        $this->sidebar['alta']['titulo'] = "Alta Tipo de Provisión";
+        $menu_items->lista = $this->menu_item(menu_item_titulo: "Inicio", link: $this->link_lista);
+        $menu_items->alta = $this->menu_item(menu_item_titulo: "Alta", link: $this->link_alta);
+        $menu_items->modifica = $this->menu_item(menu_item_titulo: "Modifica", link: $this->link_modifica);
+
+
+        $menu_items->lista['menu_seccion_active'] = true;
+        $menu_items->lista['menu_lateral_active'] = true;
+        $menu_items->alta['menu_seccion_active'] = true;
+        $menu_items->alta['menu_lateral_active'] = true;
+        $menu_items->modifica['menu_lateral_active'] = true;
+
+        $this->sidebar['lista']['titulo'] = "Tipo Provision";
+        $this->sidebar['lista']['menu'] = array($menu_items->alta);
+
+        $menu_items->alta['menu_seccion_active'] = false;
+
+        $this->sidebar['alta']['titulo'] = "Tipo Provision";
         $this->sidebar['alta']['stepper_active'] = true;
-        $this->sidebar['alta']['menu'] = array(
-            $this->menu_item(menu_item_titulo: "Alta", link: $this->link_alta, menu_lateral_active: true));
+        $this->sidebar['alta']['menu'] = array($menu_items->alta);
 
-        $this->sidebar['modifica']['titulo'] = "Modifica Tipo de Provisión";
+        $this->sidebar['modifica']['titulo'] = "Tipo Provision";
         $this->sidebar['modifica']['stepper_active'] = true;
-        $this->sidebar['modifica']['menu'] = array(
-            $this->menu_item(menu_item_titulo: "Modifica", link: $this->link_alta, menu_lateral_active: true));
+        $this->sidebar['modifica']['menu'] = array($menu_items->modifica);
+
+
+
+        return $menu_items;
     }
 
     public function alta(bool $header, bool $ws = false): array|string
