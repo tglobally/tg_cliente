@@ -1,5 +1,6 @@
 <?php
-namespace models;
+namespace tglobally\tg_cliente\models;
+
 use base\orm\modelo;
 use gamboamartin\errores\errores;
 use PDO;
@@ -7,7 +8,7 @@ use PDO;
 class tg_cte_alianza extends modelo{
 
     public function __construct(PDO $link){
-        $tabla = __CLASS__;
+        $tabla = 'tg_cte_alianza';
         $columnas = array($tabla=>false,'tg_cte_tipo_alianza'=>$tabla,'dp_calle_pertenece'=>$tabla,
             'dp_colonia_postal'=>'dp_calle_pertenece','dp_cp'=>'dp_colonia_postal','dp_municipio'=>'dp_cp',
             'dp_estado'=>'dp_municipio','dp_pais'=>'dp_estado');

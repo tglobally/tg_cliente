@@ -1,12 +1,12 @@
 <?php
-namespace models;
+namespace tglobally\tg_cliente\models;
 use base\orm\modelo;
 use PDO;
 
 class tg_sucursal_alianza extends modelo{
 
     public function __construct(PDO $link){
-        $tabla = __CLASS__;
+        $tabla = 'tg_sucursal_alianza';
         $columnas = array($tabla=>false,'tg_sucursal_alianza'=>$tabla);
         $campos_obligatorios = array();
 

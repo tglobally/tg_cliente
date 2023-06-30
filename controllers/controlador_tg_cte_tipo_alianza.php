@@ -14,10 +14,10 @@ use gamboamartin\system\init;
 use gamboamartin\system\links_menu;
 use gamboamartin\system\system;
 use html\tg_cte_tipo_alianza_html;
-use models\tg_cte_tipo_alianza;
 use PDO;
 use stdClass;
 use tglobally\template_tg\html;
+use tglobally\tg_cliente\models\tg_cte_tipo_alianza;
 
 class controlador_tg_cte_tipo_alianza extends system {
 

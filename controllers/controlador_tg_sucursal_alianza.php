@@ -17,11 +17,10 @@ use html\tg_cte_alianza_html;
 
 
 use html\tg_sucursal_alianza_html;
-use models\tg_cte_alianza;
-use models\tg_sucursal_alianza;
 use PDO;
 use stdClass;
 use tglobally\template_tg\html;
+use tglobally\tg_cliente\models\tg_sucursal_alianza;
 
 class controlador_tg_sucursal_alianza extends system {
 

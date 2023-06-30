@@ -1,5 +1,6 @@
 <?php
-namespace models;
+namespace tglobally\tg_cliente\models;
+
 use base\orm\modelo;
 use gamboamartin\comercial\models\com_cliente;
 use gamboamartin\errores\errores;
@@ -9,7 +10,7 @@ use stdClass;
 class tg_com_rel_cliente extends modelo{
 
     public function __construct(PDO $link){
-        $tabla = __CLASS__;
+        $tabla = 'tg_com_rel_cliente';
         $columnas = array($tabla=>false,'com_cliente'=>$tabla,'tg_cte_alianza'=>$tabla);
         $campos_obligatorios = array('com_cliente_id','tg_cte_alianza_id');
 

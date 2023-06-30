@@ -1,5 +1,5 @@
 <?php
-namespace models;
+namespace tglobally\tg_cliente\models;
 
 use base\orm\_modelo_parent;
 use PDO;

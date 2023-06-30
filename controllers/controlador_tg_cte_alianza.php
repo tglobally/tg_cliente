@@ -17,11 +17,10 @@ use gamboamartin\system\system;
 use html\com_cliente_html;
 use html\tg_cte_alianza_html;
 
-use models\tg_com_rel_cliente;
-use models\tg_cte_alianza;
 use PDO;
 use stdClass;
 use tglobally\template_tg\html;
+use tglobally\tg_cliente\models\tg_cte_alianza;
 
 class controlador_tg_cte_alianza extends system {
 

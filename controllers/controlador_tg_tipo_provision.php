@@ -7,9 +7,9 @@ use gamboamartin\system\_ctl_base;
 use gamboamartin\system\links_menu;
 use gamboamartin\template\html;
 use html\tg_tipo_provision_html;
-use models\tg_tipo_provision;
 use PDO;
 use stdClass;
+use tglobally\tg_cliente\models\tg_tipo_provision;
 
 class controlador_tg_tipo_provision extends _ctl_base
 {
