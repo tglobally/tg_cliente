@@ -176,14 +176,19 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
             }
         }
 
+        $registro_conf['descripcion'] = $alta_cliente_empresa->registro_id;
+        $registro_conf['tg_cliente_empresa_id'] = $alta_cliente_empresa->registro_id;
+        $registro_conf['codigo'] = (new tg_cliente_empresa($this->link))->get_codigo_aleatorio();
+        $registro_conf['codigo_bis'] = $registro_conf['codigo'];
+        $registro_conf['estado'] = "activo";
+        $alta_conf_provisiones = (new tg_conf_provisiones_cliente($this->link))->alta_registro(registro: $registro_conf);
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(mensaje: 'Error al dar de alta conf. de provisiones cliente', data: $alta_conf_provisiones,
+                header: $header, ws: $ws);
+        }
 
-
-
-        $this->link->commit();
-
-        print_r($alta_cliente_empresa);exit();
-
-        return array();
+        return $alta_conf_provisiones;
     }
 
     public function get_inputs(): array|stdClass{
@@ -232,6 +237,8 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 
         $inputs['com_sucursal_id'] = $this->registro_id;
         $inputs['org_sucursal_id'] = $_POST['org_sucursal_id'];
+
+        header('Location:'.$this->link_lista);
 
         return $inputs;
     }

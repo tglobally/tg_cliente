@@ -8,7 +8,7 @@ use PDO;
 class tg_conf_provisiones_cliente extends modelo{
 
     public function __construct(PDO $link){
-        $tabla = 'tg_cliente_empresa';
+        $tabla = 'tg_conf_provisiones_cliente';
         $columnas = array($tabla=>false);
         $campos_obligatorios = array();
 
