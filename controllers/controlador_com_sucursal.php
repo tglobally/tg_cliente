@@ -6,6 +6,7 @@ use gamboamartin\empleado\models\em_empleado;
 use gamboamartin\empleado\models\em_rel_empleado_sucursal;
 use gamboamartin\errores\errores;
 use gamboamartin\nomina\models\nom_rel_empleado_sucursal;
+use gamboamartin\organigrama\html\org_sucursal_html;
 use gamboamartin\system\actions;
 use html\com_sucursal_html;
 use html\em_empleado_html;
@@ -64,6 +65,26 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 
         $this->em_empleados = $em_empleados;
 
+    }
+
+    public function asigna_provision(bool $header, bool $ws = false){
+        $this->inputs = new stdClass();
+        $this->inputs->select = new stdClass();
+
+        $org_sucursal_id = (new org_sucursal_html(html: $this->html_base))->select_org_sucursal_id(
+            cols:12, con_registros: true,id_selected: -1,link:  $this->link);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener org_sucursal_id',data:  $org_sucursal_id, header: $header,ws:$ws);
+        }
+
+        $com_sucursal_id = (new com_sucursal_html(html: $this->html_base))->select_com_sucursal_id(
+            cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_sucursal_id, header: $header,ws:$ws);
+        }
+        
+        $this->inputs->select->org_sucursal_id = $org_sucursal_id;
+        $this->inputs->select->com_sucursal_id = $com_sucursal_id;
     }
 
     public function rel_empleado_sucursal_bd(bool $header, bool $ws = false){

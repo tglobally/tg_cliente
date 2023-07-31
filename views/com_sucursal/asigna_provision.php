@@ -9,6 +9,7 @@
             <form method="post" action="./index.php?seccion=com_sucursal&accion=asigna_provision_bd&session_id=<?php echo $controlador->session_id; ?>&registro_id=<?php echo $controlador->registro_id; ?>" class="form-additional">
 
                 <?php echo $controlador->inputs->select->com_sucursal_id; ?>
+                <?php echo $controlador->inputs->select->org_sucursal_id; ?>
                 <div class="control-group col-sm-6">
                     <div class="controls">
                         <input type="checkbox" name="prima_vacacional" value="activo"><label>Prima Vacacional</label>
@@ -42,7 +43,7 @@
         </div>
     </div>
 
-
+<!--
     <div class="col-lg-12 row-12">
         <table id="em_empleado" class="table table-striped" >
             <thead>
@@ -54,7 +55,7 @@
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($controlador->em_empleados as $em_empleado){ ?>
+            <?php /*foreach ($controlador->em_empleados as $em_empleado){ ?>
                 <tr>
                     <td><?php echo $em_empleado['em_empleado_id']; ?></td>
                     <td><?php echo $em_empleado['em_empleado_descripcion']; ?></td>
@@ -66,11 +67,11 @@
                         <?php } ?>
                     </td>
                 </tr>
-            <?php } ?>
+            <?php } */?>
             </tbody>
 
         </table>
-    </div>
+    </div>-->
 </div>
 
 
