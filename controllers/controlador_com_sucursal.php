@@ -13,6 +13,7 @@ use html\em_empleado_html;
 use PDO;
 use stdClass;
 use tglobally\template_tg\html;
+use tglobally\tg_cliente\models\tg_tipo_provision;
 
 class controlador_com_sucursal extends \gamboamartin\comercial\controllers\controlador_com_sucursal
 {
@@ -157,13 +158,60 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
             return $this->errores->error(mensaje: 'Error org_sucursal_id es requerido', data: $_POST);
         }
 
+        if (isset($_POST['prima_vacacional']) && $_POST['prima_vacacional'] === "activo") {
+            $prima_vacacional = $this->get_provision(provision: "PRIMA VACACIONAL");
+            if (errores::$error) {
+                return $this->errores->error(mensaje: 'Error al obtener PRIMA VACACIONAL', data: $prima_vacacional);
+            }
+
+            $inputs['provisiones']['prima_vacacional'] =  $prima_vacacional;
+        }
+
+        if (isset($_POST['vacaciones']) && $_POST['vacaciones'] === "activo") {
+            $vacaciones = $this->get_provision(provision: "VACACIONES");
+            if (errores::$error) {
+                return $this->errores->error(mensaje: 'Error al obtener VACACIONES', data: $vacaciones);
+            }
+
+            $inputs['provisiones']['vacaciones'] =  $vacaciones;
+        }
+
+        if (isset($_POST['prima_antiguedad']) && $_POST['prima_antiguedad'] === "activo") {
+            $prima_antiguedad = $this->get_provision(provision: "PRIMA DE ANTIGÜEDAD");
+            if (errores::$error) {
+                return $this->errores->error(mensaje: 'Error al obtener PRIMA DE ANTIGÜEDAD', data: $prima_antiguedad);
+            }
+
+            $inputs['provisiones']['prima_antiguedad'] =  $prima_antiguedad;
+        }
+
+        if (isset($_POST['aguinaldo']) && $_POST['aguinaldo'] === "activo") {
+            $aguinaldo = $this->get_provision(provision: "GRATIFICACIÓN ANUAL (AGUINALDO)");
+            if (errores::$error) {
+                return $this->errores->error(mensaje: 'Error al obtener GRATIFICACIÓN ANUAL (AGUINALDO)', data: $aguinaldo);
+            }
+
+            $inputs['provisiones']['aguinaldo'] =  $aguinaldo;
+        }
+
         $inputs['com_sucursal_id'] = $this->registro_id;
         $inputs['org_sucursal_id'] = $_POST['org_sucursal_id'];
 
-
-
-
         return $inputs;
+    }
+
+    public function get_provision(string $provision): string|array{
+        $filtro = array("tg_tipo_provision.descripcion" => $provision);
+        $response = (new tg_tipo_provision($this->link))->filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error obtener tipo de provision', data: $response);
+        }
+
+        if ($response->n_registros <= 0){
+            return $this->errores->error(mensaje: "Error $provision no existe", data: $response);
+        }
+
+        return $response->registros[0]['tg_tipo_provision_id'];
     }
 
 

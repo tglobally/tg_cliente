@@ -22,7 +22,7 @@
                 </div>
                 <div class="control-group col-sm-6">
                     <div class="controls">
-                        <input type="checkbox" name="prima_antiuedad" value="activo"><label>Prima Antigüedad</label>
+                        <input type="checkbox" name="prima_antiguedad" value="activo"><label>Prima Antigüedad</label>
                     </div>
                 </div>
                 <div class="control-group col-sm-6">
