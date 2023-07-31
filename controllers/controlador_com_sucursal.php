@@ -72,13 +72,13 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $this->inputs->select = new stdClass();
 
         $org_sucursal_id = (new org_sucursal_html(html: $this->html_base))->select_org_sucursal_id(
-            cols:12, con_registros: true,id_selected: -1,link:  $this->link);
+            cols:12, con_registros: true,id_selected: -1,link:  $this->link,label: "Empresa");
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener org_sucursal_id',data:  $org_sucursal_id, header: $header,ws:$ws);
         }
 
         $com_sucursal_id = (new com_sucursal_html(html: $this->html_base))->select_com_sucursal_id(
-            cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true);
+            cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true,label: "Cliente");
         if(errores::$error){
             return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_sucursal_id, header: $header,ws:$ws);
         }
@@ -136,4 +136,35 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 
         return $r_alta_bd;
     }
+
+    public function asigna_provision_bd(bool $header, bool $ws = false){
+
+        $inputs = $this->get_inputs();
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'No se pudo obtener los inputs', data: $inputs, header: $header, ws: $ws);
+        }
+
+        print_r($inputs);exit();
+
+        return array();
+    }
+
+    public function get_inputs(): array|stdClass{
+
+        $inputs = array();
+
+        if (!isset($_POST['org_sucursal_id']) && $_POST['org_sucursal_id'] === "" && $_POST['org_sucursal_id'] <= 0) {
+            return $this->errores->error(mensaje: 'Error org_sucursal_id es requerido', data: $_POST);
+        }
+
+        $inputs['com_sucursal_id'] = $this->registro_id;
+        $inputs['org_sucursal_id'] = $_POST['org_sucursal_id'];
+
+
+
+
+        return $inputs;
+    }
+
+
 }
