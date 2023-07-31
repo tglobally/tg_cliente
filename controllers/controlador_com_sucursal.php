@@ -14,6 +14,7 @@ use PDO;
 use stdClass;
 use tglobally\template_tg\html;
 use tglobally\tg_cliente\models\tg_cliente_empresa;
+use tglobally\tg_cliente\models\tg_cliente_empresa_provisiones;
 use tglobally\tg_cliente\models\tg_conf_provisiones_cliente;
 use tglobally\tg_cliente\models\tg_tipo_provision;
 
@@ -152,13 +153,32 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $registro['descripcion'] = $inputs['com_sucursal_id'].$inputs['org_sucursal_id'];
         $registro['com_sucursal_id'] = $inputs['com_sucursal_id'];
         $registro['org_sucursal_id'] = $inputs['org_sucursal_id'];
-        $registro['codigo'] = $inputs['com_sucursal_id'].$inputs['org_sucursal_id'];
+        $registro['codigo'] = (new tg_cliente_empresa($this->link))->get_codigo_aleatorio();
+        $registro['codigo_bis'] = $registro['codigo'];
         $alta_cliente_empresa = (new tg_cliente_empresa($this->link))->alta_registro(registro: $registro);
         if (errores::$error) {
             $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al dar de alta cliente empresa', data: $alta_cliente_empresa,
                 header: $header, ws: $ws);
         }
+
+        foreach ($inputs['provisiones'] as $provision){
+            $registro_provisiones['tg_cliente_empresa_id'] = $alta_cliente_empresa->registro_id;
+            $registro_provisiones['tg_tipo_provision_id'] = $provision;
+            $registro_provisiones['descripcion'] = $alta_cliente_empresa->registro_id;
+            $registro_provisiones['codigo'] = (new tg_cliente_empresa($this->link))->get_codigo_aleatorio();
+            $registro_provisiones['codigo_bis'] = $registro_provisiones['codigo'];
+            $alta_provision_cliente = (new tg_cliente_empresa_provisiones($this->link))->alta_registro(registro: $registro_provisiones);
+            if (errores::$error) {
+                $this->link->rollBack();
+                return $this->retorno_error(mensaje: 'Error al dar de alta provision cliente', data: $alta_provision_cliente,
+                    header: $header, ws: $ws);
+            }
+        }
+
+
+
+
         $this->link->commit();
 
         print_r($alta_cliente_empresa);exit();
