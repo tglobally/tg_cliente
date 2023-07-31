@@ -13,6 +13,8 @@ use html\em_empleado_html;
 use PDO;
 use stdClass;
 use tglobally\template_tg\html;
+use tglobally\tg_cliente\models\tg_cliente_empresa;
+use tglobally\tg_cliente\models\tg_conf_provisiones_cliente;
 use tglobally\tg_cliente\models\tg_tipo_provision;
 
 class controlador_com_sucursal extends \gamboamartin\comercial\controllers\controlador_com_sucursal
@@ -145,7 +147,21 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
             return $this->retorno_error(mensaje: 'No se pudo obtener los inputs', data: $inputs, header: $header, ws: $ws);
         }
 
-        print_r($inputs);exit();
+        $this->link->beginTransaction();
+
+        $registro['descripcion'] = $inputs['com_sucursal_id'].$inputs['org_sucursal_id'];
+        $registro['com_sucursal_id'] = $inputs['com_sucursal_id'];
+        $registro['org_sucursal_id'] = $inputs['org_sucursal_id'];
+        $registro['codigo'] = $inputs['com_sucursal_id'].$inputs['org_sucursal_id'];
+        $alta_cliente_empresa = (new tg_cliente_empresa($this->link))->alta_registro(registro: $registro);
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(mensaje: 'Error al dar de alta cliente empresa', data: $alta_cliente_empresa,
+                header: $header, ws: $ws);
+        }
+        $this->link->commit();
+
+        print_r($alta_cliente_empresa);exit();
 
         return array();
     }

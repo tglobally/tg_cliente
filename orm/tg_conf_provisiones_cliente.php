@@ -5,7 +5,7 @@ use base\orm\modelo;
 use gamboamartin\errores\errores;
 use PDO;
 
-class tg_cliente_empresa extends modelo{
+class tg_conf_provisiones_cliente extends modelo{
 
     public function __construct(PDO $link){
         $tabla = 'tg_cliente_empresa';
