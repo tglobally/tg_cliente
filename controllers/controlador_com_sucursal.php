@@ -188,6 +188,19 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
                 header: $header, ws: $ws);
         }
 
+        $filtro['org_sucursal'] = $inputs['org_sucursal_id'];
+
+        $empleados = (new em_empleado($this->link))->filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(mensaje: 'Error al obtener empleados', data: $empleados,
+                header: $header, ws: $ws);
+        }
+
+
+
+        $this->link->commit();
+
         return $alta_conf_provisiones;
     }
 
