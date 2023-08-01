@@ -142,7 +142,6 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
     }
 
     public function asigna_provision_bd(bool $header, bool $ws = false){
-
         $inputs = $this->get_inputs();
         if (errores::$error) {
             return $this->retorno_error(mensaje: 'No se pudo obtener los inputs', data: $inputs, header: $header, ws: $ws);
@@ -188,25 +187,31 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
                 header: $header, ws: $ws);
         }
 
-        $filtro['org_sucursal'] = $inputs['org_sucursal_id'];
-
-        $empleados = (new em_empleado($this->link))->filtro_and(filtro: $filtro);
+        $filtro['fc_csd.org_sucursal_id'] = $inputs['org_sucursal_id'];
+        $filtro['tg_empleado_sucursal.com_sucursal_id'] = $inputs['com_sucursal_id'];
+        $extra_join["tg_empleado_sucursal"]['key'] = "em_empleado_id";
+        $extra_join["tg_empleado_sucursal"]['enlace'] = "em_empleado";
+        $extra_join["tg_empleado_sucursal"]['key_enlace'] = "id";
+        $extra_join["tg_empleado_sucursal"]['renombre'] = "tg_empleado_sucursal";
+        $empleados = (new em_empleado($this->link))->filtro_and(extra_join: $extra_join, filtro: $filtro);
         if (errores::$error) {
             $this->link->rollBack();
             return $this->retorno_error(mensaje: 'Error al obtener empleados', data: $empleados,
                 header: $header, ws: $ws);
         }
 
-
+        print_r($empleados);exit();
 
         $this->link->commit();
+
+        header('Location:'.$this->link_lista);
 
         return $alta_conf_provisiones;
     }
 
     public function get_inputs(): array|stdClass{
 
-        $inputs = array();
+        $inputs = array('provisiones' => array());
 
         if (!isset($_POST['org_sucursal_id']) && $_POST['org_sucursal_id'] === "" && $_POST['org_sucursal_id'] <= 0) {
             return $this->errores->error(mensaje: 'Error org_sucursal_id es requerido', data: $_POST);
@@ -250,8 +255,6 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 
         $inputs['com_sucursal_id'] = $this->registro_id;
         $inputs['org_sucursal_id'] = $_POST['org_sucursal_id'];
-
-        header('Location:'.$this->link_lista);
 
         return $inputs;
     }
