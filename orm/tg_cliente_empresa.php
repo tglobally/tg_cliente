@@ -9,7 +9,7 @@ class tg_cliente_empresa extends modelo{
 
     public function __construct(PDO $link){
         $tabla = 'tg_cliente_empresa';
-        $columnas = array($tabla=>false);
+        $columnas = array($tabla=>false, 'com_sucursal' => $tabla, 'org_sucursal' => $tabla);
         $campos_obligatorios = array();
 
         parent::__construct(link: $link,tabla:  $tabla, campos_obligatorios: $campos_obligatorios,
