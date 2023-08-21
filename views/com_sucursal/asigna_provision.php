@@ -43,6 +43,17 @@
         </div>
     </div>
 
+    <div class="lista">
+        <div class="card">
+            <div class="card-header">
+                <span class="text-header">Provisiones Asignadas</span>
+            </div>
+            <div class="card-body">
+                <?php echo $controlador->contenido_table; ?>
+            </div> <!-- /. widget-table-->
+        </div>
+    </div>
+
 <!--
     <div class="col-lg-12 row-12">
         <table id="em_empleado" class="table table-striped" >

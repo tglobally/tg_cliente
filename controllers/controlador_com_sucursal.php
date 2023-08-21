@@ -74,7 +74,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
 
     }
 
-    public function asigna_provision(bool $header, bool $ws = false){
+    public function asigna_provision(bool $header, bool $ws = false, array $not_actions = array()){
         $this->inputs = new stdClass();
         $this->inputs->select = new stdClass();
 
@@ -92,6 +92,25 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         
         $this->inputs->select->org_sucursal_id = $org_sucursal_id;
         $this->inputs->select->com_sucursal_id = $com_sucursal_id;
+
+        $seccion = "tg_conf_provisiones_empleado";
+
+        $data_view = new stdClass();
+        $data_view->names = array('Id', 'Cliente','Empresa','Provisión');
+        $data_view->keys_data = array($seccion . "_id", "com_sucursal_descripcion", "org_sucursal_descripcion",
+            "tg_tipo_provision_descripcion");
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'tglobally\\tg_empleado\\models';
+        $data_view->name_model_children = $seccion;
+
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__,
+            not_actions: $not_actions);
+        if (errores::$error) {
+            return $this->retorno_error(
+                mensaje: 'Error al obtener tbody', data: $contenido_table, header: $header, ws: $ws);
+        }
+
+        return $contenido_table;
     }
 
     public function asigna_provision_bd(bool $header, bool $ws = false){
