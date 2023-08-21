@@ -17,6 +17,9 @@ use tglobally\tg_cliente\models\tg_cliente_empresa;
 use tglobally\tg_cliente\models\tg_cliente_empresa_provisiones;
 use tglobally\tg_cliente\models\tg_conf_provisiones_cliente;
 use tglobally\tg_cliente\models\tg_tipo_provision;
+use tglobally\tg_empleado\models\tg_conf_provision;
+use tglobally\tg_empleado\models\tg_conf_provisiones_empleado;
+use tglobally\tg_empleado\models\tg_empleado_sucursal;
 
 class controlador_com_sucursal extends \gamboamartin\comercial\controllers\controlador_com_sucursal
 {
@@ -91,6 +94,108 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $this->inputs->select->com_sucursal_id = $com_sucursal_id;
     }
 
+    public function asigna_provision_bd(bool $header, bool $ws = false){
+        $inputs = $this->get_inputs();
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'No se pudo obtener los inputs', data: $inputs, header: $header, ws: $ws);
+        }
+
+        $this->link->beginTransaction();
+
+        $siguiente_view = $this->inicializa_transaccion();
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(
+                mensaje: 'Error al inicializar', data: $siguiente_view, header: $header, ws: $ws);
+        }
+
+        $filtro['tg_conf_provision.com_sucursal_id'] = $inputs['com_sucursal_id'];
+        $filtro['tg_conf_provision.org_sucursal_id'] = $inputs['org_sucursal_id'];
+        $filtro['tg_conf_provision.estado'] = "activo";
+        $configuracion = (new tg_conf_provision($this->link))->filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al obtener configuracion', data: $configuracion);
+        }
+
+        if ($configuracion->n_registros <= 0){
+            $alta['com_sucursal_id'] = $inputs['com_sucursal_id'];
+            $alta['org_sucursal_id'] = $inputs['org_sucursal_id'];
+            $alta['estado'] = "activo";
+            $alta['descripcion'] = "CONF.";
+            $alta['codigo'] = $this->modelo->get_codigo_aleatorio();
+            $alta['codigo_bis'] = $alta['codigo'];
+
+            $alta_bd = (new tg_conf_provision($this->link))->alta_registro(registro: $alta);
+            if (errores::$error) {
+                $this->link->rollBack();
+                return $this->errores->error(mensaje: 'Error al insertar configuracion', data: $alta_bd);
+            }
+            $configuracion->registros[0]['tg_conf_provision_id'] = $alta_bd->registro_id;
+        }
+
+        $filtro = array();
+        $filtro['tg_conf_provisiones_empleado.tg_conf_provision_id'] = $configuracion->registros[0]['tg_conf_provision_id'];
+        $borrados = (new tg_conf_provisiones_empleado($this->link))->elimina_con_filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->errores->error(mensaje: 'Error al eliminar provisiones', data: $borrados);
+        }
+
+        $filtro = array();
+        $filtro['tg_empleado_sucursal.com_sucursal_id'] = $inputs['com_sucursal_id'];
+        $filtro['tg_empleado_sucursal.org_sucursal_id'] = $inputs['org_sucursal_id'];
+        $empleados = (new tg_empleado_sucursal($this->link))->filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al obtener empleados', data: $empleados);
+        }
+
+        foreach ($empleados->registros as $registro){
+            foreach ($inputs['provisiones'] as $key => $provision){
+                $alta['tg_conf_provision_id'] = $configuracion->registros[0]['tg_conf_provision_id'];
+                $alta['em_empleado_id'] = $registro['em_empleado_id'];
+                $alta['tg_tipo_provision_id'] = $provision;
+                $alta['descripcion'] = $key;
+                $alta['codigo'] = $this->modelo->get_codigo_aleatorio();
+                $alta['codigo_bis'] = $alta['codigo'];
+                $alta_bd = (new tg_conf_provisiones_empleado($this->link))->alta_registro(registro: $alta);
+                if (errores::$error) {
+                    $this->link->rollBack();
+                    return $this->errores->error(mensaje: 'Error al insertar provision', data: $alta_bd);
+                }
+            }
+        }
+
+        $this->link->commit();
+        $link = "./index.php?seccion=com_sucursal&accion=asigna_provision&registro_id=" . $this->registro_id;
+        $link .= "&session_id=$this->session_id";
+        header('Location:' . $link);
+        exit();
+    }
+
+    private function inicializa_transaccion(): array|string
+    {
+        $siguiente_view = (new actions())->init_alta_bd();
+        if (errores::$error) {
+            return $this->errores->error(mensaje: 'Error al obtener siguiente view', data: $siguiente_view);
+        }
+
+        $limpia = $this->clean_post();
+        if (errores::$error) {
+
+            return $this->errores->error(mensaje: 'Error al limpiar post', data: $limpia);
+        }
+
+        return $siguiente_view;
+    }
+
+    private function clean_post(): array
+    {
+        if (isset($_POST['btn_action_next'])) {
+            unset($_POST['btn_action_next']);
+        }
+        return $_POST;
+    }
+
     public function rel_empleado_sucursal_bd(bool $header, bool $ws = false){
         $this->link->beginTransaction();
 
@@ -141,58 +246,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         return $r_alta_bd;
     }
 
-    public function asigna_provision_bd(bool $header, bool $ws = false){
-        $inputs = $this->get_inputs();
-        if (errores::$error) {
-            return $this->retorno_error(mensaje: 'No se pudo obtener los inputs', data: $inputs, header: $header, ws: $ws);
-        }
 
-        $this->link->beginTransaction();
-
-        $registro['descripcion'] = $inputs['com_sucursal_id'].$inputs['org_sucursal_id'];
-        $registro['com_sucursal_id'] = $inputs['com_sucursal_id'];
-        $registro['org_sucursal_id'] = $inputs['org_sucursal_id'];
-        $registro['codigo'] = (new tg_cliente_empresa($this->link))->get_codigo_aleatorio();
-        $registro['codigo_bis'] = $registro['codigo'];
-        $alta_cliente_empresa = (new tg_cliente_empresa($this->link))->alta_registro(registro: $registro);
-        if (errores::$error) {
-            $this->link->rollBack();
-            return $this->retorno_error(mensaje: 'Error al dar de alta cliente empresa', data: $alta_cliente_empresa,
-                header: $header, ws: $ws);
-        }
-
-        foreach ($inputs['provisiones'] as $provision){
-            $registro_provisiones['tg_cliente_empresa_id'] = $alta_cliente_empresa->registro_id;
-            $registro_provisiones['tg_tipo_provision_id'] = $provision;
-            $registro_provisiones['descripcion'] = $alta_cliente_empresa->registro_id;
-            $registro_provisiones['codigo'] = (new tg_cliente_empresa($this->link))->get_codigo_aleatorio();
-            $registro_provisiones['codigo_bis'] = $registro_provisiones['codigo'];
-            $alta_provision_cliente = (new tg_cliente_empresa_provisiones($this->link))->alta_registro(registro: $registro_provisiones);
-            if (errores::$error) {
-                $this->link->rollBack();
-                return $this->retorno_error(mensaje: 'Error al dar de alta provision cliente', data: $alta_provision_cliente,
-                    header: $header, ws: $ws);
-            }
-        }
-
-        $registro_conf['descripcion'] = $alta_cliente_empresa->registro_id;
-        $registro_conf['tg_cliente_empresa_id'] = $alta_cliente_empresa->registro_id;
-        $registro_conf['codigo'] = (new tg_cliente_empresa($this->link))->get_codigo_aleatorio();
-        $registro_conf['codigo_bis'] = $registro_conf['codigo'];
-        $registro_conf['estado'] = "activo";
-        $alta_conf_provisiones = (new tg_conf_provisiones_cliente($this->link))->alta_registro(registro: $registro_conf);
-        if (errores::$error) {
-            $this->link->rollBack();
-            return $this->retorno_error(mensaje: 'Error al dar de alta conf. de provisiones cliente', data: $alta_conf_provisiones,
-                header: $header, ws: $ws);
-        }
-
-        $this->link->commit();
-
-        header('Location:'.$this->link_lista);
-
-        return $alta_conf_provisiones;
-    }
 
     public function get_inputs(): array|stdClass{
 
