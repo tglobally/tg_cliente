@@ -96,9 +96,9 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $seccion = "tg_conf_provisiones_empleado";
 
         $data_view = new stdClass();
-        $data_view->names = array('Id', 'Cliente','Empresa','Provisión');
+        $data_view->names = array('Id', 'Cliente','Empresa','Provisión', 'Empleado');
         $data_view->keys_data = array($seccion . "_id", "com_sucursal_descripcion", "org_sucursal_descripcion",
-            "tg_tipo_provision_descripcion");
+            "tg_tipo_provision_descripcion", "em_empleado_nombre_completo");
         $data_view->key_actions = 'acciones';
         $data_view->namespace_model = 'tglobally\\tg_empleado\\models';
         $data_view->name_model_children = $seccion;
