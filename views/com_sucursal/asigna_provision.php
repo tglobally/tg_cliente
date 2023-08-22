@@ -10,26 +10,38 @@
 
                 <?php echo $controlador->inputs->select->com_sucursal_id; ?>
                 <?php echo $controlador->inputs->select->org_sucursal_id; ?>
-                <div class="control-group col-sm-6">
+                <div class="control-group col-sm-4">
                     <div class="controls">
-                        <input type="checkbox" name="prima_vacacional" value="activo"><label>Prima Vacacional</label>
+                        <input type="checkbox" name="prima_vacacional" value="activo">
+                        <label class="form-check-label" >Prima Vacacional</label>
                     </div>
                 </div>
-                <div class="control-group col-sm-6">
+                <div class="control-group col-sm-4">
                     <div class="controls">
-                        <input type="checkbox" name="vacaciones" value="activo"><label>Vacaciones</label>
+                        <input type="checkbox" name="vacaciones" value="activo">
+                        <label class="form-check-label" >Vacaciones</label>
                     </div>
                 </div>
-                <div class="control-group col-sm-6">
+                <div class="control-group col-sm-4">
                     <div class="controls">
-                        <input type="checkbox" name="prima_antiguedad" value="activo"><label>Prima Antigüedad</label>
+                        <input type="checkbox" name="prima_antiguedad" value="activo">
+                        <label class="form-check-label" >Prima Antigüedad</label>
                     </div>
                 </div>
-                <div class="control-group col-sm-6">
+                <div class="control-group col-sm-4">
                     <div class="controls">
-                        <input type="checkbox" name="aguinaldo" value="activo"><label>Gratificación Anual (Aguinaldo)</label>
+                        <input type="checkbox" name="aguinaldo" value="activo">
+                        <label class="form-check-label" >Gratificación Anual (Aguinaldo)</label>
                     </div>
                 </div>
+
+                <div class="control-group col-sm-12">
+                    <div class="controls">
+                        <input type="checkbox" class="form-check-input" name="tipo_calculo" value="active">
+                        <label class="form-check-label" for="flexCheckDefault">(Activa|Desactiva) Tipo calculo</label>
+                    </div>
+                </div>
+
                 <div class="buttons col-md-12">
                     <div class="col-md-6 btn-ancho">
                         <button type="submit" name="btn_action_next" value="asigna_empleado" class="btn btn-info btn-guarda col-md-12 " >Nueva</button>
