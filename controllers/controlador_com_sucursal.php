@@ -168,6 +168,12 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
             return $this->errores->error(mensaje: 'Error al obtener empleados', data: $empleados);
         }
 
+        $tipo_calculo = "inactive";
+
+        if (isset($_POST['tipo_calculo']) && $_POST['tipo_calculo'] === "active"){
+            $tipo_calculo = "active";
+        }
+
         foreach ($empleados->registros as $registro){
             foreach ($inputs['provisiones'] as $key => $provision){
                 $alta['tg_conf_provision_id'] = $configuracion->registros[0]['tg_conf_provision_id'];
@@ -176,6 +182,7 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
                 $alta['descripcion'] = $key;
                 $alta['codigo'] = $this->modelo->get_codigo_aleatorio();
                 $alta['codigo_bis'] = $alta['codigo'];
+                $alta['tipo_calculo'] = $tipo_calculo;
                 $alta_bd = (new tg_conf_provisiones_empleado($this->link))->alta_registro(registro: $alta);
                 if (errores::$error) {
                     $this->link->rollBack();
