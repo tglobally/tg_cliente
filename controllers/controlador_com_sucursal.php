@@ -10,6 +10,7 @@ use gamboamartin\organigrama\html\org_sucursal_html;
 use gamboamartin\system\actions;
 use html\com_sucursal_html;
 use html\em_empleado_html;
+use html\nom_percepcion_html;
 use PDO;
 use stdClass;
 use tglobally\template_tg\html;
@@ -196,6 +197,52 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $link .= "&session_id=$this->session_id";
         header('Location:' . $link);
         exit();
+    }
+
+    public function asigna_percepcion(bool $header, bool $ws = false, array $not_actions = array()){
+        $this->inputs = new stdClass();
+        $this->inputs->select = new stdClass();
+
+        $com_sucursal_id = (new com_sucursal_html(html: $this->html_base))->select_com_sucursal_id(
+            cols:12, con_registros: true,id_selected: $this->registro_id,link:  $this->link, disabled: true,label: "Cliente");
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener com_cliente_id',data:  $com_sucursal_id, header: $header,ws:$ws);
+        }
+
+        $nom_percepcion_id = (new nom_percepcion_html(html: $this->html_base))->select_nom_percepcion_id(
+            cols:12, con_registros: true,id_selected: -1,link:  $this->link);
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener nom_percepcion_id',data:  $nom_percepcion_id, header: $header,ws:$ws);
+        }
+
+        $monto = (new nom_percepcion_html(html: $this->html_base))->input_text_required(
+            cols:6, disabled: false,name: "monto",place_holder:  "Monto",row_upd: new stdClass(),value_vacio: false, title: "Monto");
+        if(errores::$error){
+            return $this->retorno_error(mensaje: 'Error al obtener input monto',data:  $monto, header: $header,ws:$ws);
+        }
+
+        $this->inputs->select->com_sucursal_id = $com_sucursal_id;
+        $this->inputs->select->nom_percepcion_id = $nom_percepcion_id;
+        $this->inputs->monto = $monto;
+
+        $seccion = "tg_conf_percepcion_empleado";
+
+        $data_view = new stdClass();
+        $data_view->names = array('Id', 'Cliente', 'Percepcion', 'Monto');
+        $data_view->keys_data = array($seccion . "_id", "com_sucursal_descripcion", "nom_percepcion_descripcion",
+            $seccion.'_monto');
+        $data_view->key_actions = 'acciones';
+        $data_view->namespace_model = 'tglobally\\tg_empleado\\models';
+        $data_view->name_model_children = $seccion;
+
+        $contenido_table = $this->contenido_children(data_view: $data_view, next_accion: __FUNCTION__,
+            not_actions: $not_actions);
+        if (errores::$error) {
+            return $this->retorno_error(
+                mensaje: 'Error al obtener tbody', data: $contenido_table, header: $header, ws: $ws);
+        }
+
+        return $contenido_table;
     }
 
     private function inicializa_transaccion(): array|string
