@@ -18,6 +18,8 @@ use tglobally\tg_cliente\models\tg_cliente_empresa;
 use tglobally\tg_cliente\models\tg_cliente_empresa_provisiones;
 use tglobally\tg_cliente\models\tg_conf_provisiones_cliente;
 use tglobally\tg_cliente\models\tg_tipo_provision;
+use tglobally\tg_empleado\models\tg_conf_percepcion;
+use tglobally\tg_empleado\models\tg_conf_percepcion_empleado;
 use tglobally\tg_empleado\models\tg_conf_provision;
 use tglobally\tg_empleado\models\tg_conf_provisiones_empleado;
 use tglobally\tg_empleado\models\tg_empleado_sucursal;
@@ -228,9 +230,9 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         $seccion = "tg_conf_percepcion_empleado";
 
         $data_view = new stdClass();
-        $data_view->names = array('Id', 'Cliente', 'Percepcion', 'Monto');
-        $data_view->keys_data = array($seccion . "_id", "com_sucursal_descripcion", "nom_percepcion_descripcion",
-            $seccion.'_monto');
+        $data_view->names = array('Id', 'Cliente', 'Empleado', 'Percepcion', 'Monto');
+        $data_view->keys_data = array($seccion . "_id", "com_sucursal_descripcion", "em_empleado_nombre_completo" ,
+            "nom_percepcion_descripcion", $seccion.'_monto');
         $data_view->key_actions = 'acciones';
         $data_view->namespace_model = 'tglobally\\tg_empleado\\models';
         $data_view->name_model_children = $seccion;
@@ -243,6 +245,83 @@ class controlador_com_sucursal extends \gamboamartin\comercial\controllers\contr
         }
 
         return $contenido_table;
+    }
+
+    public function asigna_percepcion_bd(bool $header, bool $ws = false){
+        $this->link->beginTransaction();
+
+        $siguiente_view = $this->inicializa_transaccion();
+        if (errores::$error) {
+            $this->link->rollBack();
+            return $this->retorno_error(
+                mensaje: 'Error al inicializar', data: $siguiente_view, header: $header, ws: $ws);
+        }
+
+        $filtro['tg_conf_percepcion.com_sucursal_id'] = $this->registro_id;
+        $filtro['tg_conf_percepcion.estado'] = "activo";
+        $configuracion = (new tg_conf_percepcion($this->link))->filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'Error al obtener configuracion', data: $configuracion,
+                header: $header, ws: $ws);
+        }
+
+        if ($configuracion->n_registros <= 0){
+            $alta['com_sucursal_id'] = $this->registro_id;;
+            $alta['estado'] = "activo";
+            $alta['descripcion'] = "CONF.";
+            $alta['codigo'] = $this->modelo->get_codigo_aleatorio();
+            $alta['codigo_bis'] = $alta['codigo'];
+
+            $alta_bd = (new tg_conf_percepcion($this->link))->alta_registro(registro: $alta);
+            if (errores::$error) {
+                $this->link->rollBack();
+                return $this->retorno_error(mensaje: 'Error al insertar configuracion', data: $alta_bd, header: $header,
+                    ws: $ws);
+            }
+            $configuracion->registros[0]['tg_conf_percepcion_id'] = $alta_bd->registro_id;
+        }
+
+        $filtro = array();
+        $filtro['tg_empleado_sucursal.com_sucursal_id'] = $this->registro_id;
+        $empleados = (new tg_empleado_sucursal($this->link))->filtro_and(filtro: $filtro);
+        if (errores::$error) {
+            return $this->retorno_error(mensaje: 'Error al obtener empleados', data: $empleados, header: $header, ws: $ws);
+        }
+
+        foreach ($empleados->registros as $registro){
+            $filtro = array();
+            $filtro['tg_conf_percepcion_empleado.tg_conf_percepcion_id'] = $configuracion->registros[0]['tg_conf_percepcion_id'];
+            $filtro['tg_conf_percepcion_empleado.em_empleado_id'] = $registro['em_empleado_id'];
+            $filtro['tg_conf_percepcion_empleado.nom_percepcion_id'] = $_POST['nom_percepcion_id'];
+            $filtro['tg_conf_percepcion.estado'] = "activo";
+            $configuracion_empleado = (new tg_conf_percepcion_empleado($this->link))->filtro_and(filtro: $filtro);
+            if (errores::$error) {
+                return $this->retorno_error(mensaje: 'Error al obtener configuracion', data: $configuracion_empleado, header: $header, ws: $ws);
+            }
+
+            if ($configuracion_empleado->n_registros > 0){
+               continue;
+            }
+
+            $alta['tg_conf_percepcion_id'] = $configuracion->registros[0]['tg_conf_percepcion_id'];
+            $alta['em_empleado_id'] = $registro['em_empleado_id'];
+            $alta['nom_percepcion_id'] = $_POST['nom_percepcion_id'];
+            $alta['monto'] = $_POST['monto'];
+            $alta['descripcion'] = "CONF.". $this->registro_id;
+            $alta['codigo'] = $this->modelo->get_codigo_aleatorio();
+            $alta['codigo_bis'] = $alta['codigo'];
+            $alta_bd = (new tg_conf_percepcion_empleado($this->link))->alta_registro(registro: $alta);
+            if (errores::$error) {
+                $this->link->rollBack();
+                return $this->retorno_error(mensaje: 'Error al insertar cof. percepcion', data: $alta_bd, header: $header, ws: $ws);
+            }
+        }
+
+        $this->link->commit();
+        $link = "./index.php?seccion=com_sucursal&accion=asigna_percepcion&registro_id=" . $this->registro_id;
+        $link .= "&session_id=$this->session_id";
+        header('Location:' . $link);
+        exit();
     }
 
     private function inicializa_transaccion(): array|string
